@@ -1,0 +1,86 @@
+## Chapter3: Homework
+**Name**: Zhang Yupeng
+**Student ID**: 5130309468
+
+### Exercise 2.3.1: 
+Consider a relation with schema $R(A,B,C,D)$ and FD’s $AB \rightarrow C, C \rightarrow D $and$ D \rightarrow A$
+
+**a)  What are all the non-trivial FD’s that follow from the given FD’s? You should restrict yourself to FD’s with single attributes on the right side.**
+
+1. $A^+ = A, B^+=B, C^+=ACD, D^+=AD$, so,
+    $C \rightarrow A$.
+2. $AB^+=ABCD, AC+=ACD, AD^+=AD, BC^+=ABCD, BD^+=ABCD, CD^+=ACD$, so,
+    $AB \rightarrow D$
+    $AC \rightarrow D$
+    $BC \rightarrow A$
+    $BC \rightarrow D$
+    $BD \rightarrow A$
+    $BD \rightarrow C$
+    $CD \rightarrow A$
+
+3. $ABC^+=ABCD, ABD^+=ABCD, ACD^+=ACD, BCD^+=ABCD$,so,
+    $ABC \rightarrow D$
+    $ABD \rightarrow C$
+    $BCD \rightarrow A$
+
+4. $ABCD^+=ABCD$
+
+So, there are total 14 non-trivial FD's.
+
+**b)  What are all the keys of R?**
+
+The keys are $AB, BC, BD$.
+
+**c)  What are all the superkeys for R that are not keys?**
+
+The superkeys are $ABC, ABD, BCD, ABCD$
+
+### Exercise 3.5.2: 
+Consider the relation Courses(C, T, H, R, S, G),whose attributes may be thought of informally as course, teacher, hour, room, student and grade. FD’s: $C \rightarrow T, HR \rightarrow C, HT \rightarrow R, HS \rightarrow R, CS \rightarrow G$. intuitively, the first says that a course has a unique teacher, and the second says that only one course can meet in a given room at a given hour. The third says that a teacher can be only on room at a given hour, and the fourth says the same about students. The last says that students get only one grad in a course.
+
+**a)  What are all the keys for Courses?**
+
+The key for Courses is $HS$.
+
+
+**b)  Verify that the given FD’s are their own minimal basis.**
+
+First, check whether any of the FD's can be removed, there's no FD's can be removed.
+Second, checjk whether any of the left sides of FD's can be removed, there's no one can be removed.
+So, the given FD's are their own minimal basis.
+
+
+**Use the 3NF synthesis algorithm to find a lossless-join, dependency-preserving decomposition of R into 3NF relations. Are any of the relations not in BCNF?**
+
+First, the given FD's is the minimal basis, so we see the following FD's:
+1. $C \rightarrow T$, so we get schema $(CT)$
+2. $HR \rightarrow C$, so we get schema $(HRC)$
+3. $HT \rightarrow R$, so we get schema $(HTR)$
+4. $HS \rightarrow R$, so we get schema $(HSR)$
+5. $CS \rightarrow G$, so we get schema $(CSG)$
+
+Since there is key contained in an FD, so we have totally 5 schemas in the 3NF relations.
+
+None of the relations are not in BCFN.
+
+### Exercise 3.6.3: 
+For each of the following relation schemas and dependencies
+a)  $R(A,B,C,D)$ with MVD’s $A \rightarrow \rightarrow B, A\rightarrow \rightarrow C$
+b)  A relation $R(A,B,C,D)$ with MVD $AB \rightarrow \rightarrow C$, and FD $B \rightarrow D$
+Do the following:
+
+**(i) Find all the 4NF violations.**
+
+**a)** The key of relation R is $ABCD$, so all the MVD's $A \rightarrow \rightarrow B, A \rightarrow \rightarrow C$  violates 4NF.
+
+**b)** The key of relation R is $ABC$, so $AB \rightarrow \rightarrow C$ and $B \rightarrow \rightarrow D$ violated 4NF.
+
+**(ii)Decompose the relations into a collection of relation schemas in 4NF.**
+
+**a)**
+Decompose R to R1(AB), R2(ACD), R3(AC), R4(ABD), and continue decompose R2 into R5(AC), R6(AD)
+So the final collection of relation schemas is AB, AC, AD.
+
+**b)**
+Decompose R to R1(ABC), R2(ABD), R3(BD), and contimue decompose R2 into R4(AB)
+So the final collection of relation schemas is ABC and BD. 
