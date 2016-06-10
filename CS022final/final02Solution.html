@@ -1,0 +1,764 @@
+<html><head><meta http-equiv=Content-Type content='text/html; charset=UTF-8'></head>
+<Html>
+<Body background="PARCHMTL.JPG" tppabs="http://infolab.stanford.edu/~ullman//fcdb/aut02/PARCHMTL.JPG">
+
+<Center><H2>Solutions for CS145 Final</h2></center>
+
+<Center><table><tr><td><pre>
+Problem #1: Relational algebra expressions over R(a,b) and S(b,c)
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) The answer to Q2 is always contained in the answer to Q1.
+
+Note that both Q1 and Q2 result in a subset of R.
+
+A tuple  R(a,b) is selected  by Q1 if  there exists *some* tuple  in S
+such that S.b = R.b. This is equivalent to the following SQL query:
+
+  Q1:   SELECT * FROM R WHERE   R.b = ANY (SELECT S.b FROM S)
+
+   
+A tuple R(a,b) is produced as output by Q2 if (there exists some tuple
+S(b,c) with S.c  = R.a) and (there exists some  tuple S(b,c) such that
+S.b = R.b). This is equivalent to the following SQL query:
+
+  Q2:   SELECT * FROM R WHERE ((R.b = ANY (SELECT S.b FROM S)
+                           AND (R.a = ANY (SELECT S.c FROM S))
+
+The two SQL queries make it clear that Q2 produces a subset of tuples
+produced by Q1.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #2: SELECT ALL or ANY with subquery
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) Q1 and Q2 produce different answers.
+
+There are two cases to consider:
+
+- Subquery returns empty set
+
+  ALL (empty set) returns TRUE while ANY (empty set) returns FALSE.
+  So Q1 produces all of R.a while Q2 returns empty bag.
+
+- Subquery returns non-empty set
+
+  Usually, the condition b >= ALL (some_non_empty_set) will select
+  fewer tuples than the condition b >= ANY (some_non_empty_set).
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #3: SELECT w/ GROUP BY   vs   SELECT DISTINCT
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) Q1 and Q2 produce the same answer.
+
+Q1 returns the _set_ (not a _bag_) of "a" values whose
+corresponding "b" value is positive.
+
+Q2 first groups  selects tuples with positive "b"  values, groups them
+by "a"  values and then selects  the "a" values of  these groups. Note
+that the GROUP BY  produces a _set_ of groups whose key  is the set of
+attributes over which we created groups.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #4 Team/Player ODL Problem #1
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) Q1 and Q2 produce the same answer.
+
+Both  of them  print names  of  players who  play for  team with  name
+"49ers".  Note that there is a unique team with that name because Team
+has key "name".
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #5: Team/Player ODL Problem #2
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) Q1 and Q2 produce different answers.
+
+The Types  of the  answer set  of the two  queries are  different.  Q1
+produces output of type Bag(Struct(string)) whereas Q2 produces output
+of type Bag(Struct(Set(class Player))).
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #6: Datalog Cousin/Sibling/GrandParent
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) Q1 and Q2 produce different answers.
+
+We can rewrite Q1 by substituting Sibling into the second rule:
+
+  Cousin(x,y) <- Par(x,xp) AND Par(y,yp) AND Par(xp,g) AND Par(yp,g) AND xp <> yp
+
+We can rewrite Q2 by substituting GrandParent into the second rule:
+
+  Cousin(x,y) <- Par(x,xp) AND Par(xp,g) AND Par(y,yp) AND Par(yp,g) AND x <> y
+
+The two expressions are identical except for the last condition.
+
+Here is how the last inequality affects the answers:
+
+Consider Par() relation with the following tuples:
+
+   { (x, a), (x, b), (a, g), (b, g),        (u, c), (v, c), (c, h) }
+
+Then,
+        Q1 produces Cousin(x, x)
+        Q2 produces Cousin(u, v)
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #7 Arc(x,y) Problem
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) Q1 and Q2 produce the same answer.
+
+V(x, degree) is a _set_  of tuples where the second attribute "degree"
+is  the  out-degree of  node  "x" in  the  multi-graph  (a graph  with
+"parallel"/"multiple" edges).
+
+Let neighbour(x) denote  the _bag_ of neighbours of  x (i.e., there is
+one occurence of y in neighbour(x) for each occurence of Arc(x,y)).
+
+Q1 computes the sum of out-degrees of nodes in the _bag_ neighbour(0).
+
+Q2 computes the  cross product of a1 with a2  and selects those tuples
+where (a1.x =  0 AND a1.y = a2.x). Finally, the  count of these tuples
+is    produced.   Effectively,    Q2   iterates    over    the   _bag_
+neighbour(0). Each node y in neighbour(0) contributes out-degree(y) to
+the final sum.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #8: COUNT vs COUNT DISTINCT
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) Q1 and Q2 produce different answers.
+
+If R is the bag <(a,b,c), (a,b,c)>, Q1 produces 1 whereas Q2 produces 2.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #9: UPDATE with INSERT/SELECT
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) Q1 and Q2 produce different answers.
+
+This question is slightly tricky.
+
+(a) If R has  no tuple with a = 20, then Q1  produces an empty bag but
+    Q2 produces a single tuple (10, 20).
+    
+(b) If R has  several tuples with a = 20, then  Q1 produces a bag with
+    as many  occurences of (10, 20) as  there were tuples with  a = 20
+    earlier (Note that  a is not the key for R.  So there could easily
+    be  duplicates).  However, Q2  produces only  a single  tuple (10,
+    20).
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #10: SELECT with "a IS NULL" vs "a NOT LIKE '%'"
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) The answer to Q2 is always contained in the answer to Q1
+
+ The '%'  regular expression matches  all NOT NULL  strings (including
+ the empty string with length zero).  It is like "*" when using "ls *"
+ in UNIX.
+
+ Q2 always produces an empty bag because
+    - "a NOT LIKE '%'" does not match any NOT NULL string R.a.
+    - If R.a IS NULL, the outcome is UNKNOWN and the corresponding row
+      doesnt get selected.
+
+ Q1 produces all those rows where R.a IS NULL.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #11: R(a, b) and S(b, c)
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) The answer to Q2 is always contained in the answer to Q1.
+
+Q1 natural-joins R  and S and then selects the  first column. The size
+of the answer is equal to the size of (R NATURAL JOIN S).
+
+Q2 selects those tuples in R whose b attribute exists among the bag of
+b attributes of S. The size of the answer is never more than the size
+of R itself.
+
+Example: R = {(1,2)} and S  = {(2,3), (2,4), (2,5)}.  Then, Q1 = <(1),
+(1), (1)> whereas Q2 = <(1)>.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #12: R(x, y, value) problem
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b) The answer to Q1 is always contained in the answer to Q2.
+
+Q1 is equivalent to:
+
+  SELECT S.value
+   FROM
+     ((SELECT * FROM R)
+      MINUS
+     (SELECT R1.x, R1.y, R1.value FROM R R1, R R2
+             WHERE (R1.x = R2.x OR R1.y = R2.y) AND (R1.value < R2.value)))
+      S ;
+
+Q2 is equivalent to:
+
+  (SELECT MAX(R.value) FROM R GROUP BY R.x)
+   UNION
+  (SELECT MAX(R.value) FROM R GROUP BY R.y) ;
+
+Consider R  = {(0,0,0), (0,2,200), (5,2,500)}. Then,  Q1 = {(500)}
+whereas Q2 = {(0), (200), (500)}. Try them in Oracle.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #13: Relational algebra expressions
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) The answer to Q2 is always contained in the answer to Q1.
+
+Q1 is the cross product of all values in R.a with all values in R.b.
+
+It is easy to see that Q2  cannot possibly produce a tuple that is not
+contained in Q1.
+
+What remains  to be determined is  whether there is some  tuple in the
+cross  product  that  Q2   cannot  produce.   There  indeed  are  such
+tuples.  For example,  if  R =  {(5,5)},  Q1 =  {(5,5)}  whereas Q2  =
+{}.   Another   example  is   R   =   {(1,2),   (2,3)}  where   Q1   =
+{(1,2),(1,3),(2,2),(2,3)} whereas Q2 = {(1,2), (2,3), (2,2)}
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #14: XPath problem
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) Q1 and Q2 produce different answers.
+
+Q1 allows tag patterns like &lt;A&gt;&lt;B&gt;&lt;/B&gt;&lt;B&gt;&lt;/B&gt;&lt;C&gt;&lt;/C&gt;&lt;/A&gt; that Q2 does not.
+
+Q2 allows &lt;A&gt;&lt;B&gt;&lt;/B&gt;&lt;A&gt;&lt;C&gt;&lt;/C&gt;&lt;/A&gt;&lt;/A&gt; that Q1 does not.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #15: Two SQL queries
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b) The answer to Q1 is always contained in the answer to Q2.
+
+In Q1,  there is one tuple per  unique value of attribute  R.a (due to
+the  GROUP BY).   Each of  these tuples  is produced  by  Q2. However,
+neither a nor  b nor (a,b) is  a key for R. Therefore,  there could be
+multiple rows that  share a and b attributes.   Thus, Q2 might produce
+the same row more than once.  One such relation where this would occur
+is R = {(1, 2, 3), (1, 2, 4)}.
+</pre></td></tr></table></center> <Hr>
+
+<Center><table><tr><td><pre>
+Problem #16: E/R Diagram
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) I only
+
+R has two FD's: ABC -> D and ABD -> C.
+
+  I  ABC -> D is violated.
+
+ II  Neither FD is violated. The tuples do not share ABC or ABD
+     attributes.
+
+III  Neither FD is violated. The tuples do not share ABC or ABD
+     attributes.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #17: Keys of Projected Relation
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) Only AB and AC are keys
+
+There are four FD's: A -> D, B -> C,  D -> E and CE -> B.  A is not on
+the  right hand side  of any  FD. So  A must  be part  of any  key for
+R. This leaves us with four possible  keys: A, AB, AC, and ABC.  It is easy
+to see that:
+
+    A -> ADE
+   AB -> ABCDE
+   AC -> ABCDE
+  ABC -> ABCDE
+
+Thus, the keys for R are AB and AC.
+ABC is not a key because it properly contains a key.
+
+It is important  to note that when considering  the projected relation
+R, we  do not "project  out" FD's.  All  of  them  need  be considered
+when reasoning about FD's in R.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #18 MVD's
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) I and II only
+
+We know that A ->-> BC and D -> B.
+
+Claim: A ->-> BC and D -> B imply that A -> B.
+Proof:
+  Consider two tuples that share the  A attribute: (a, b1, c1, d1, e1)
+  and (a, b2, c2, d2, e2).  From A ->-> BC, we deduce that (a, b2, c2,
+  d1, e1) must also belong to R.  Now, consider the tuples (a, b1, c1,
+  d1, e1) and (a, b2, c2, d1, e1) along with the FD D -> B. It follows
+  that b1 = b2. This implies that A -> B holds.
+
+  
+Claim: A ->-> BC and A -> B imply that  A ->-> C
+Proof:
+  Consider two tuples satisfying  A -> B:
+      (a, b, c1, d1, e1) and (a, b, c2, d2, e2)
+  From A ->-> BC, we deduce that (a, b, c2, d1, e1) and (a, b, c1, d2,
+  e2) must also belong to R. This implies that  A ->-> C holds.
+
+We cannot assert that A ->-> D holds.
+In particular, a relation consisting of the two tuples (a, b, c, d1, e1)
+and (a, b, c, d2, e2) satisfies the given dependencies, but not A ->->
+D.
+
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #19 E/R Diagram and ODL
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b)  class A {relationship B R inverse B::R} ;
+             class B {relationship set&lt;A&gt; R inverse A::R ;
+                      relationship C S inverse C::S} ;
+             class C {relationship set&lt;B&gt; S inverse B::S} ;
+
+This schema declares class A with A::R being a many-one relationship from A
+to B. Class B has a one-many relationship from B to A (a single value
+of B can be related to a set of values in A).
+
+The relationships B::S and C::S are defined analogously.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #20 /\, \/ and - with bag interpretations
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b) R \/ (S /\ T) = (R \/ S) /\ (R \/ T)
+
+The four options were:
+
+ (a) R \/ (S - T)  = (R \/ S) - T
+ (b) R \/ (S /\ T) = (R \/ S) /\ (R \/ T)
+ (c) R /\ (S \/ T) = (R /\ S) \/ (S /\ T)
+ (d) None of the above
+ 
+Consider  a tuple  x that  occurs  r, s  and t  times  in R,  S and  T
+respectively. The question is equivalent to identifying as to which of
+the following identities is really true:
+
+ (a) r + max(s-t, 0) = max ((r + s) - t, 0)
+ (b) r + min(s, t)   = min (r+s, r+t)
+ (c) min(r, s+t)     = min(r, s) + min(r, t)
+ (d) None of the above
+
+Note that terms  like R \/ S, R /\  S and R - S  have been replaced by
+r+s, min(r,  s) and max(r-s,  0) respectively because  they faithfully
+capture bag semantics.
+
+Only option  (b) is correct for  integers, in general.
+</pre></td></tr></table></center> <Hr>
+
+<Center><table><tr><td><pre>
+Problem #21: FD's and Lossless Joins
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b) AD, BDE, and ABC
+
+A join of two relations is lossless whenever the intersection of their
+attributes  functionally  determines   one  of  the  relations.   This
+condition  applies  whenever we  decompose  in the  BCNF-decomposition
+algorithm, incidentally.   In decomposition (b),  we can join  AD with
+ABC  first, since  the intersection,  A, functionally  determines ABC.
+That  gives  us  ABCD,  which  must  be joined  with  BDE.   Now,  the
+intersection is BD,  and a given FD  tells us BD -> BDE,  so this join
+too is lossless.
+
+To  check that  none of  the  other choices  has a  lossless join,  we
+construct  counterexamples.   In each  case,  let's  start with  three
+hypothetical   tuples  that   when  projected   and  joined   give  us
+(a,b,c,d,e).  For instance, in choice (a), these tuples would have the
+form  (a,b,c1,d1,e1), (a2,b,c,d2,e2),  and  (a3,b,c3,d,e).  Apply  the
+given  dependencies  to equate  certain  symbols,  if necessary.   For
+answer (a), we would have to admit that c1 and c3 are both c, but then
+we  have three  tuples  that satisfy  the  given FD's:  (a,b,c,d1,e1),
+(a2,b,c,d2,e2),   and   (a3,b,c,d,e).   Since   none   of  these   are
+(a,b,c,d,e),  we know  that  the relation  consisting  of these  three
+tuples, when projected and joined,  yields a tuple not in the original
+relation;  i.e., this  decomposition is  not lossless.   Note:  if you
+don't trust the  use of abstract symbols, replace  each of the symbols
+a, a2, etc., by a distinct integer.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #22: Oracle TYPEs, TABLEs and SELECT
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) Only I
+
+    I SELECT rr.d.a FROM R rr ;
+      is okay as R has an alias "rr" whose members rr.d.a are SELECTed.
+
+   II SELECT d.a FROM R ;
+      will cause an error in Oracle because it expects an alias for R.   
+
+  III SELECT a FROM THE(SELECT d FROM R) ;
+      will produce errors for two reasons:
+        - the sub-query (SELECT d FROM R) requires that R be given
+          some alias, e.g., SELECT rr.d FROM R rr.
+        - the overall SELECT also requires that THE(...) be aliased,
+          e.g., SELECT xx.a FROM THE(...) xx.
+
+Thus, only I produces no error in Oracle.          
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #23: E1, E2, ... E10 isa Hierarchy
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b) 10
+
+Let us denote the entity sets by E(1), E(2), ... E(10).
+
+For 1 <=  i <= 10, if e  belongs to E(i), then e also  belongs to each
+entity set in the set {E(1),  E(2), ... E(i-1), E(i)}.  Since i ranges
+from   1   thru    10,   there   can   only   be    ten   such   sets.
+</pre></td></tr></table></center> <Hr>
+
+<Center><table><tr><td><pre>
+Problem #24: OQL query over Team and Player
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a)
+
+(b) is incorrect because p. playsFor is a team object, not a collection,
+and therefore cannot appear in the FROM clause.
+
+(c) is incorrect because t.players is a collection, and thus cannot be
+extended by a dot to t.players.playsFor.
+
+(d) is incorrect for a similar reason.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #25: E/R diagram with A(50), B(20), C(200) and R
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) 1000
+
+R has two functional dependancies: AB -> C and AC -> B.
+
+Consider tuples in R with the first attribute A = a.
+If (a, b, c) is a tuple,
+  - there cannot be another tuple (a, b', c) with b <> b'
+  - there cannot be anotehr tuple (a, b, c') with c <> c'
+Effectively, there is a "pairing" of  b and c.
+
+Since B has 20 entities while C  has 200, there can be at most 20 such
+pairs (minimum of 20 and 200 is 20).
+
+Thus, any  particular value of  A = a  can be associated with  only 20
+pairs of the form (b, c). Since there are 50 distinct values of A, the
+total size of R can be at most 50 x 20 = 1000 tuples.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #26: Three manager-queries in Datalog
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) I, II and III
+
+All three queries can be expressed in Datalog:
+
+  I Highest (m, e)             <-- Emps (e, s, m) AND MaxSalary (s, m)
+    Max_Salary (s, m)          <-- Emps (_, s, m) AND NOT Less_Than_Max_Salary (s, m)
+    Less_Than_Max_Salary(s, m) <-- Emps (_, s, m) AND Emps(_, t, m) and s < t
+    
+ II Reports (m, e) <-- Emps (e, _, m)
+    Reports (m, e) <-- Reports (m, f) AND Emps (e, _, f)
+
+III MgrOfMgrOfMgrOf (e, m) <-- Emps (e, _, x) AND Emps (x, _, y) AND Emps (y, _, m)    
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #27: Three manager-queries in SQL
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) I and III only
+
+  I Less_Than_Max_Salary (m, s) = PROJECT_(E1.salary, E1.manager)       (SELECT_(E1.manager = E2.maanger AND E1.salary < E2.salary)  (E1 x E2))
+    Max_Salary (s, m)           = PROJECT_(Emps.salary, Emps.manager)   (SELECT_(Emps.manager = Less_Than_Max_Salary.manager AND  Emps.salary <> Less_Than_Max_Salary.salary) (Emps x Less_Than_Max_Salary))
+    Highest (m, e)              = PROJECT_(Emps.manager, Emps.employee) (SELECT_(Emps.salary = Max_Salary.salary AND  Emps.manager = Max_Salary.manager) (Emps x Max_Salary))
+
+    where E1 and E2 are the same Emps relation twice.
+          
+ II Cannot  be expressed in  core relational algebra.  Intuitively, we
+    need "recursion" to reach the (manager of)^* of an employee.
+  
+III PROJECT_(E1.eName, E3.manager)  (SELECT_((E1.manager = E2.eName) AND (E2.manager = E3.eName)) (E1 x E2 x E3))
+
+    where E1, E2 and E3 are the same Emps relation three times.
+
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #28: Privileges for INSERT with REFERENCES
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b) REFERENCES on Manfs
+
+We  need REFERENCES  on Manfs  (to be  able to  check  the referential
+integrity constraint) and INSERT on Beers  (to be able to insert a new
+tuple into Beers).
+
+Note that  SELECT on  Beers or Manfs  is not  necessary as we  are not
+evaluating any (sub)-query that involves either table. UPDATE on Beers
+is  also not  needed as  that  privelege enables  "update of  existing
+tuples"; our need is "insertion of new tuples".
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #29: GRANT/REVOKE privileges
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: b)
+
+Following the convention in  the DB textbook, the GRANT/REVOKE diagram
+at the end of the first four GRANT statements has four nodes:
+
+  (a)  A(INSERT on R, **)
+  (b)  B(INSERT ON R, *)
+  (c)  C(INSERT ON R, *)
+  (d)  D(INSERT ON R, *)
+
+There are four edges:
+
+   (i)  A(INSERT on R, **) --->  B(INSERT ON R *)
+  (ii)  B(INSERT on R, *)  --->  C(INSERT ON R *)
+ (iii)  C(INSERT on R, *)  --->  D(INSERT ON R *)
+  (iv)  D(INSERT on R, *)  --->  B(INSERT ON R *)
+
+The  double star denotes  ownership of  relation. Single  stars denote
+"WITH GRANT OPTION".
+
+When B  revokes privilege from C,  edge (ii) gets  deleted. This means
+node (c)  and edge  (iii) also get  deleted.  Since CASCADE  option is
+specified, any other node not  reachable from A (the owner of relation
+R,  are deleted.   This means  that node  (d) and  edge (iv)  also get
+deleted. This leaves us with two nodes A(INSERT on R, **) and B(INSERT
+on R, *) with an edge from A to B.
+</pre></td></tr></table></center> <Hr>
+
+<Center><table><tr><td><pre>
+Problem #30: JDBC statement
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) myStat.setInt(1, 2) ;
+
+To replace tuple  (1, 1) by (2,  1), we would like to  execute the SQL
+statement "UPDATE R SET a = 2 WHERE b = 1".
+
+We already have PreparedStatement myState with one parameter (question
+mark  placeholder)  denoted by  a  "?". To  be  able  to execute  this
+statement,  we first  need to  set  the question  mark placeholder  by
+"myStat.setInt (1,  2) ;".  After  setting this value, we  would write
+"myStat.executeUpdate() ;" to actually carry out the update.
+
+A tutorial covering JDBC PreparedStatement is available <a href="javascript:if(confirm('http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html  \n\n该文件未被 Teleport Ultra 下载，因为 它位于起始地址以设置的边界以外的域或路径中。  \n\n你想要从服务器打开它吗?'))window.location='http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html'" tppabs="http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html">here</a>).
+</pre></td></tr></table></center> <Hr>
+
+<Center><table><tr><td><pre>
+Problem #31: Bag vs set semantics
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) R U S
+
+(a) T = R - S
+
+    Irrespective of whether we employ bag or set semantics,
+    
+      (i) If a tuple occurs in both R and S, it is not part of T,
+     (ii) if there is a tuple in R but not in S, exactly one copy is
+          part of T
+    (iii) if there is a tuple in  S but not in R, it is not part of T.
+
+    The resultant T is the same in both cases.
+
+(b) T = (R JOIN S) - (S JOIN R)
+
+    T  would be empty  irrespective of  whether we  employ bag  or set
+    semantics. This is because (R JOIN S) and (S JOIN R) are identical
+    sets/bags.
+
+(c) T = R U S
+
+    If a tuple occurs in both R and S, then it occurs twice in T if we
+    use bag semantics. Only one occurence occurs in T if we employ set
+    semantics.
+
+
+(d) T = SELECT (a = 5) R
+
+    Selection would produce the same set of tuples since R is a set.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #32 SQL Expression with 3-Valued Logic
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) TRUE or UNKNOWN, but never FALSE
+
+Note that (X <  Y) OR (X >= Y) is a  tautology that evaluates to TRUE.
+However,  SQL  does  not  arrive   at  such  an  answer  by  algebraic
+manipulation.    SQL   would   first  evaluate   each   sub-expression
+individually  and  then  evaluate   the  truth  value  of  the  entire
+expression.  Thus, if X and  Z are both UNKNOWN, the entire expression
+evaluates to  UNKNOWN. Note that  there is no  way to make  the entire
+expression FALSE.
+
+Thus, the expression can evaluate to either TRUE or UNKNOWN, but never
+FALSE.
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #33: Answer with Red and Blue
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: c) (1, 3)
+
+This is a problem that several people got wrong.
+
+Let's evaluate the two relations first. It is easy to see that
+
+  P(x, y) = {(1, 2), (2, 3), (3, 4), (1, 3), (2, 4), (1, 4)}
+  Q(x, y) = {(2, 4), (1, 3)}
+
+We are left with the evaluation of
+  Answer(x, y) <- P(x, y) AND NOT Q(y, x)
+
+Now comes  the tricky part: Notice  the order of  x and y in  the rule
+"Answer(x,y) <- P(x,y)  AND NOT Q(y,x)".  It turns out  that (1, 3) is
+not in Answer(x,y).
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #34: Which rule is safe?
+</pre></td></tr></table></center>
+
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: d) P(x, y) <- Q(x) AND R(y) AND x < y AND NOT S(y)
+
+A  Datalog rule  is safe  if every  variable in  a rule  appears  as a
+parameter to to some non-negated relational subgoal.
+
+In (a), y does not appear in any relation.
+In (b), x does not appear in any relation.
+In (c), z does not appear in any non-negated relation.
+In (d), all variables: x and y, appear in non-negated relations: Q(x)
+        and R(y).
+</pre></td></tr></table></center>
+<Hr>
+
+<Center><table><tr><td><pre>
+Problem #35: Meaning of ||
+</pre></td></tr></table></center>
+<Center><Table bgcolor="#eed8ae"><tr><td><Pre>
+Correct: a) Concatenation
+
+In SQL, || denotes the string concatenation operator.
+
+In  some  languages  for  expressing  parallel  programs,  ||  denotes
+parallel execution. Example: Occam?
+
+In programming languages like C, || denotes lazy OR.
+
+In  some older programming  languages, ||  denoted eager  OR. Example:
+Pascal?
+</pre></td></tr></table></center> <Hr>
+
+</body>
+</html>

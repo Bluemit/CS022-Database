@@ -1,0 +1,886 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta name="Author" content="Jun Yang">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (X11; U; SunOS 5.6 sun4u) [Netscape]">
+   <title>CS145 Final Sample Solution</title>
+</head>
+<body>
+
+<center>
+<h2>
+CS145 Final Sample Solution</h2></center>
+
+<hr ALIGN=LEFT WIDTH="100%">
+<p>Questions 25-26 are graded by Erik, Questions 27-29 by Mark, Question
+30-31 by Mike, and Question 32 by Jun. If you want to discuss the grading
+of these questions, you should give your exam to the relevant person, together
+with a note explaining why you think the grading was questionable.
+<p>
+<hr ALIGN=LEFT WIDTH="100%">
+<h4>
+Question 1: (B)</h4>
+Through the Directs relationship, a museum is associated with at most one
+artist. Through the Displays relationship, a museum is associated with
+any number of paintings.
+<h4>
+Question 2: (D)</h4>
+The type of <tt>a.paints</tt> is <tt>Set&lt;Painting></tt> according the
+ODL declaration of the <tt>Artist</tt> class. Each output tuple has type
+<tt>Struct
+{string name, Set&lt;Painting> paints}</tt>. The result&nbsp; should be
+a <tt>Bag</tt> of these structures.
+<h4>
+Question 3: (A)</h4>
+I is correct. II has a type mismatch problem: it compares <tt>p</tt> (of
+type <tt>Painting</tt>) to <tt>a.paints</tt> and <tt>m.displays</tt> (both
+of type <tt>Set&lt;Painting></tt>).
+<h4>
+Question 4: (C)</h4>
+I doesn't need a <tt>DISTINCT</tt> because it's simply a selection over
+<tt>Artists</tt>,
+which doesn't contain any duplicates. II needs a <tt>DISTINCT</tt>: different
+paintings could be painted by the same artist, so <tt>p.isPaintedBy</tt>
+could be the same for different <tt>p</tt>'s. III needs a <tt>DISTINCT</tt>
+because of the multiplicative effect of the <tt>FROM</tt> clause.
+<h4>
+Question 5: (C)</h4>
+It's easy to see that both <i>A</i><tt>-></tt><i>B</i> and <i>B</i><tt>-></tt><i>C</i>
+hold in <i>T(A, B, C)</i>. Obviously, <i>A</i><tt>-></tt><i>C</i> follows
+from <i>A</i><tt>-></tt><i>B</i> and <i>B</i><tt>-></tt><i>C</i> by the
+transitivity rule for FD's. <i>B</i><tt>-></tt><i>C</i> implies <i>B</i><tt>->></tt><i>C</i>
+because FD is MVD; <i>B</i><tt>->></tt><i>C</i> implies <i>B</i><tt>->></tt><i>A</i>
+by the complementation rule for MVD's.
+<h4>
+Question 6: (C)</h4>
+(C) is lossy. Consider the following counterexample:
+<center><table WIDTH="100%" NOSAVE >
+<tr NOSAVE>
+<td NOSAVE>
+<center><i>R</i></center>
+
+<center><table BORDER NOSAVE >
+<tr NOSAVE>
+<td><i>A</i></td>
+
+<td><i>B</i></td>
+
+<td NOSAVE><i>C</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>2</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+</table></center>
+&nbsp;</td>
+
+<td>
+<center><i>R1</i></center>
+
+<center><table BORDER NOSAVE >
+<tr>
+<td><i>A</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE>2</td>
+
+<td>1</td>
+</tr>
+</table></center>
+&nbsp;</td>
+
+<td>
+<center><i>R2</i></center>
+
+<center><table BORDER NOSAVE >
+<tr>
+<td><i>B</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>1</td>
+</tr>
+</table></center>
+&nbsp;</td>
+
+<td>
+<center><i>R3</i></center>
+
+<center><table BORDER NOSAVE >
+<tr>
+<td><i>C</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+</tr>
+</table></center>
+&nbsp;</td>
+
+<td>
+<center><i>R1</i> JOIN <i>R2</i> JOIN <i>R3</i></center>
+
+<center><table BORDER NOSAVE >
+<tr NOSAVE>
+<td NOSAVE><i>A</i></td>
+
+<td><i>B</i></td>
+
+<td><i>C</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>2</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>2</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+</table></center>
+&nbsp;</td>
+</tr>
+</table></center>
+
+<h4>
+Question 7: (B)</h4>
+
+<center><table BORDER NOSAVE >
+<tr NOSAVE>
+<td NOSAVE></td>
+
+<td><i>A</i></td>
+
+<td><i>B</i></td>
+
+<td><i>C</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td><i>t1</i></td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td><i>t2</i></td>
+
+<td>1</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+</tr>
+
+<tr>
+<td><i>t3</i></td>
+
+<td>1</td>
+
+<td>2</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td><i>t4</i></td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>2</td>
+
+<td>2</td>
+</tr>
+</table></center>
+Given <i>t1</i> and <i>t2</i>, we can obtain <i>t3</i> and <i>t4</i> by
+swapping their <i>CD</i> values (because <i>A</i><tt>->></tt><i>CD</i>).
+No other tuples can be inferred from these.
+<h4>
+Question 8: (C)</h4>
+What could go in the spade? First, it must contain some attribute other
+than <i>A</i> (if not, the first FD would be trivial and the basis wouldn't
+be minimal). Second, it cannot contain <i>B</i> (if it does, <i>A</i><tt>->></tt><i>CD</i>
+would be redundant because <i>A</i><tt>-></tt><i>B</i> implies <i>A</i><tt>->></tt><i>B</i>,
+which implies <i>A</i><tt>->></tt><i>CD</i> by the complementation rule).
+Third, it cannot contain both <i>C</i> and <i>D</i> (if it does, <i>A</i><tt>->></tt><i>CD</i>
+would again be redundant because <i>A</i><tt>-></tt><i>CD</i> implies <i>A</i><tt>->></tt><i>CD</i>).
+<p>So, the spade is either <i>C</i> or <i>D</i>. (It could include an extra
+<i>A</i>
+but that wouldn't change the meaning of the FD.) Without loss of generality,
+let's suppose the spade is <i>C</i> (<i>C</i> and <i>D</i> are symmetric).
+The keys of <i>R</i> are <i>{A, B, D}</i> and <i>{B, C, D}</i>. Therefore,
+<i>R</i>
+is not in BCNF (both <i>A</i><tt>-></tt><i>C</i> and <i>CD</i><tt>-></tt><i>A</i>
+are BCNF violations). On the other hand,
+<i>R</i> is in 3NF (<i>A</i><tt>-></tt><i>C</i>
+doesn't violate 3NF because
+<i>C</i> is in the key <i>{B, C, D}</i>, and
+<i>CD</i><tt>-></tt><i>A</i>
+doesn't violate 3NF because <i>A</i> is in the key <i>{A, B, D}</i>).
+<h4>
+Question 9: (D)</h4>
+The keys of <i>R</i> are <i>{A, D, E}</i> and <i>{B, D, E}</i>. Therefore,
+all three FD's are BCNF and 4NF violations. <i>A</i><tt>-></tt><i>B</i>
+is not a 3NF violation because <i>B</i> is in the key <i>{B, D, E}</i>.
+<i>BD</i><tt>-></tt><i>A</i>
+is not a 3NF violation because <i>A</i> is in the key <i>{A, D, E}</i>.
+<i>A</i><tt>-></tt><i>C</i>
+is a 3NF violation because <i>C</i> is not in any key.
+<h4>
+Question 10: (C)</h4>
+Starting with <i>A</i><tt>-></tt><i>B</i>, we decompose <i>R</i> into <i>AB</i>
+and <i>ACDE</i>. <i>ACDE</i> contains a BCNF violation <i>A</i><tt>-></tt><i>C</i>,
+so we decompose it further into <i>AC</i> and <i>ADE</i>. <i>A</i><tt>-></tt><i>B</i>
+holds in <i>AB</i>, <i>A</i><tt>-></tt><i>C</i> holds in <i>AC</i>, and
+<i>ADE</i>
+doesn't support any nontrivial FD's. Obviously, <i>BD</i><tt>-></tt><i>A</i>
+is not preserved.
+<h4>
+Question 11: (B)</h4>
+When all tuples are deleted from <tt>T</tt>, all <tt>S</tt> tuples with
+<tt>S.CIS</tt>
+<tt>NOT</tt> <tt>NULL</tt> are deleted too, following the <tt>CASCADE</tt>
+policy. Then, all <tt>R.B</tt> values are set to <tt>NULL</tt> because
+of the <tt>SET</tt> <tt>NULL</tt> policy.
+<h4>
+Question 12: (A)</h4>
+Because of the referential integrity constraints, each <tt>R</tt> tuple
+joins with at most one <tt>S</tt> tuple, and this <tt>S</tt> tuple in turn
+joins with at most one <tt>T</tt> tuple. Therefore, the number of tuples
+produced by the join is no more than the number of tuples in <tt>R</tt>.
+<h4>
+Question 13: (D)</h4>
+An important observation is that <tt>UNIQUE</tt> <tt>(A)</tt> is stronger
+than <tt>PRIMARY</tt> <tt>KEY</tt> <tt>(A,B)</tt> (assuming that everything
+is <tt>NOT</tt> <tt>NULL</tt>). Therefore, when inserting <tt>R</tt> tuples
+into <tt>S</tt>, we don't need to check whether two <tt>R</tt> tuples together
+could violate <tt>PRIMARY</tt> <tt>KEY</tt> <tt>(A,B)</tt>; we simply need
+to make sure that a <tt>R</tt> tuple and <tt>S</tt> tuple together won't
+violate <tt>PRIMARY</tt> <tt>KEY</tt> <tt>(A,B)</tt>.
+<p>Also, II won't violate any constraint; it's even more conservative than
+I.
+<h4>
+Question 14: (B)</h4>
+Here, the important observation is that <tt>PRIMARY</tt> <tt>KEY</tt> <tt>(A,B)</tt>
+is weaker than <tt>UNIQUE</tt> <tt>(A)</tt> and <tt>UNIQUE</tt> <tt>(B)</tt>.
+Therefore, when inserting <tt>S</tt> tuples into <tt>R</tt>, we need to
+check whether two <tt>S</tt> tuples together could violate <tt>UNIQUE(A)</tt>
+or <tt>UNIQUE</tt> <tt>(B)</tt>.
+<p>I avoids this problem by processing one <tt>S</tt> tuple at a time;
+but II cannot avoid this problem.
+<h4>
+Question 15: (D)</h4>
+It's impossible for an update of <i>D</i> or a deletion from <i>R</i> to
+violate <i>A</i><tt>-></tt><i>BC</i>.
+<h4>
+Question 16: (C)</h4>
+Consider the following instance of <i>R</i>:
+<center><table BORDER NOSAVE >
+<tr>
+<td><i>A</i></td>
+
+<td><i>B</i></td>
+
+<td><i>C</i></td>
+
+<td><i>D</i></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td>2</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>1</td>
+</tr>
+</table></center>
+Currently, <i>R</i> satisfies <i>A</i><tt>->></tt><i>BC</i>. If we update
+column <i>D</i> of the last row to 0, or if we delete the last row, <i>A</i><tt>->></tt><i>BC</i>
+will be violated because <i>R</i> no longer contains the tuple (1, 2, 2,
+1).
+<h4>
+Question 17: (D)</h4>
+2000 is the result of the execution sequence <tt>T1</tt>.step1, <tt>T1</tt>.step2,
+<tt>T2</tt>.
+<p>2200 is the result of the execution sequence <tt>T1</tt>.step1, <tt>T2</tt>,
+<tt>T1</tt>.step2.
+<p>2300 is the result of the execution sequence <tt>T2</tt>, <tt>T1</tt>.step1,
+<tt>T1</tt>.step2.
+<h4>
+Question 18: (B)</h4>
+2000 and 2300 are still possible, but 2200 is not, because <tt>T2</tt>
+cannot get in between <tt>T1</tt>.step1 and <tt>T1</tt>.step2 to read the
+uncommitted value written by <tt>T1</tt>.step1.
+<h4>
+Question 19: (C)</h4>
+(A) is sufficient but not necessary. (B) and (D) are not sufficient because
+of phantom tuples.
+<h4>
+Question 20: (D)</h4>
+(D) is sufficient and necessary. The only case where <tt>QMAX</tt> could
+possibly return something less than <tt>QMIN</tt> is when student 123 had
+no previous enrollment history, and <tt>T2</tt> read some dirty data inserted
+by another transaction that was aborted later. Here is an example:
+<center><table NOSAVE >
+<tr>
+<td></td>
+
+<td>
+<pre>-- T3:
+INSERT INTO Enroll
+VALUES(123, 'CS145',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'Spring 1999', 4.0);</pre>
+</td>
+</tr>
+
+<tr>
+<td>
+<pre>-- T2:
+SELECT MIN(grade) FROM Enroll
+WHERE SID = 123; -- QMIN
+-- returns 4.0</pre>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td>
+<pre>ROLLBACK;
+-- T4:
+INSERT INTO Enroll
+VALUES(123, 'CS145',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'Spring 1999', 3.0);
+COMMIT;</pre>
+</td>
+</tr>
+
+<tr>
+<td>
+<pre>SELECT MAX(grade) FROM Enroll
+WHERE SID = 123; -- QMAX
+-- returns 3.0</pre>
+</td>
+
+<td></td>
+</tr>
+</table></center>
+On the other hand, a committed insertion to <tt>Enroll</tt> can only make
+the lowest grade lower and the highest grade higher. So, under the assumption
+that <tt>Enroll</tt> is <tt>INSERT</tt>-only, if we make <tt>T2</tt> run
+at <tt>READ</tt> <tt>COMMITTED</tt>, then the result of <tt>QMAX</tt> will
+always be no less than the result of <tt>QMIN</tt>.
+<h4>
+Question 21: (C)</h4>
+For each course, <tt>V</tt> contains the <tt>Enroll</tt> tuples with the
+highest grade ever assigned to that course. Thus, the query over <tt>V</tt>
+simply returns those courses with highest grade equal to 3.0. Both I and
+II return the exact same set of courses.
+<h4>
+Question 22: (D)</h4>
+Since we are only given the values of <tt>CID</tt> and <tt>term</tt>, neither
+(A) nor (B) will help. (D) allows us to quickly locate the set of tuples
+with <tt>CID='CS145'</tt> <tt>AND</tt> <tt>term='Spring 1999'</tt>. On
+the other hand, (C) lets us quickly locate the set of tuples with <tt>CID='CS145'</tt>,
+and the set of tuples with <tt>term='Spring 1999'</tt>. To find tuples
+satisfying both conditions, we still need to intersect these two sets.
+Therefore, (C) is not as good as (D).
+<h4>
+Question 23: (D)</h4>
+I is obviously monotone since it's a simple selection over Enroll.
+<p>Although II uses the difference operator, it is still monotone because
+II is actually equivalent to I!
+<p>III is not monotone. For example, suppose that <tt>Enroll</tt> contains
+a student 007 who has not taken CS145. The current result of III should
+contain 007. Now, suppose we insert into <tt>Enroll</tt> the fact that
+007 has just taken CS145. Then, 007 would disappear from the result.
+<h4>
+Question 24: (B)</h4>
+Here is the dependency graph for the query:
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SuperStudent ---+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; V&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+SuperStat -----> SuperCourse&nbsp;&nbsp;&nbsp;&nbsp; |
+&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+&nbsp;&nbsp;&nbsp; +-------------> Enroll &lt;-----+</pre>
+<tt>SuperStat</tt> is not monotone w.r.t. <tt>SuperCourse</tt> because
+adding a super course may cause the <tt>COUNT(*)</tt> field of certain
+<tt>SuperStat</tt>
+tuples to be incremented (updated). <tt>SuperStat</tt> is not monotone
+w.r.t. <tt>Enroll</tt> because adding an enrollment record may also cause
+the <tt>COUNT(*)</tt> field of a certain <tt>SuperStat</tt> tuple to be
+updated.
+<p><tt>SuperStudent</tt> is monotone w.r.t. <tt>SuperCourse</tt> because
+adding a super course can only make more students become super; students
+who are already super will remain super. For the same reason, <tt>SuperStudent</tt>
+is monotone w.r.t. <tt>Enroll</tt>.
+<p>Similarly, <tt>SuperCourse</tt> is monotone w.r.t. <tt>SuperStudent</tt>
+and <tt>Enroll</tt>.
+<h4>
+
+<hr ALIGN=LEFT WIDTH="100%">Question 25:</h4>
+
+<pre>PROJ_{SID} (SELECT_{grade>4.0} (Enroll))</pre>
+For each student whose max grade is above 4.0, we could also say that they
+have at least one grade above 4.0. This query just selects all the tuples
+with grades above 4.0, and then projects out the SID's associated with
+those tuples.
+<p><b><font size=-1>Grading by Erik:</font></b>
+<blockquote>
+<li>
+<font size=-1>An alternate solution that received full credit (although
+it's not as elegant) was a brute force method that found all maximum scores
+and then selected the ones above 4.0:</font></li>
+
+<pre><font size=-1>PROJ_{SID} (SELECT_{grade>4.0} (
+&nbsp;&nbsp; PROJ_{SID,grade} (Enroll) -
+&nbsp;&nbsp; PROJ_{e1.SID,e1.grade} (RENAME_{e1}(Enroll)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JOIN_{e1.SID=e2.SID AND e1.grade&lt;e2.grade}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RENAME_{e2}(Enroll))
+))</font></pre>
+
+<li>
+<font size=-1>-1 if the solution was way more complicated than need be
+--- for example, lots of extra stuff to get rid of "duplicates" (relational
+algebra uses set semantics, so we don't need to worry about duplicates).</font></li>
+
+<li>
+<font size=-1>-2 if the query wouldn't work, and more it had bigger problems.</font></li>
+
+<li>
+<font size=-1>0 point was generally reserved for solutions that were missing
+substantial functionality (for example, if no attempt was made to represent
+significant parts of the query).</font></li>
+</blockquote>
+
+<h4>
+Question 26:</h4>
+
+<pre>PROJ_{SID} (Enroll) -
+PROJ_{SID} (SELECT_{grade&lt;=3.0} (Enroll))</pre>
+<b><font size=-1>Grading by Erik:</font></b>
+<blockquote>
+<li>
+<font size=-1>Again, full credit was given to the less elegant, brute force
+submission, which was almost identical to the alternate solution for Question
+25.</font></li>
+
+<li>
+<font size=-1>-1 if the query contained lots of extra stuff that didn't
+do anything.</font></li>
+
+<li>
+<font size=-1>-2 or more if the query was non-functional. In general, grading
+was harsher if the less elegant solution was attempted. For example, solutions
+that tried to incorrectly subtract the result of a natural join of two
+<tt>Enroll</tt>
+tables from one <tt>Enroll</tt> table received 2 points.</font></li>
+</blockquote>
+
+<h4>
+Question 27:</h4>
+No. The constraint could be violated by a deletion from <tt>Rating</tt>
+(namely, by removing the only Stanford program with a higher score than
+Berkeley). However, deletions are not monitored by a tuple-based <tt>CHECK</tt>.
+<p><b><font size=-1>Grading by Mark:</font></b>
+<blockquote>
+<li>
+<font size=-1>2 points were given for the answer of "No" and basically
+for any reason that mentioned deletions.</font></li>
+
+<li>
+<font size=-1>no points were given for the answer of "Yes".</font></li>
+
+<li>
+<font size=-1>1 point was given the answer of "No" but for a wrong reason;
+e.g.:</font></li>
+
+<ul TYPE=CIRCLE>
+<li>
+<font size=-1>a reason like only one tuple could be seen (but we could
+use subquery)</font></li>
+
+<li>
+<font size=-1>some rational about why subqueries could cause problems&nbsp;
+(they don't, because the only table it mentioned is its own table)</font></li>
+</ul>
+</blockquote>
+
+<h4>
+Question 28:</h4>
+
+<pre>CREATE ASSERTION BeatCal CHECK
+&nbsp; (EXISTS (SELECT *
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; Rating r1, Rating r2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; r1.univ = 'Stanford'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp; r2.univ = 'Berkeley'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp; r1.prog = r2.prog
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp; r1.score > r2.score));</pre>
+<b><font size=-1>Grading by Mark:</font></b>
+<blockquote>
+<li>
+<font size=-1>5 points for a perfect solution.</font></li>
+
+<li>
+<font size=-1>Around 4 points for forgetting Berkeley, forgetting to join
+on program, or having a minor error syntactic or semantic error, but showed
+understanding of how it worked.</font></li>
+
+<li>
+<font size=-1>Somewhere in the vicinity of 1.5 or 2 points for a solution
+that did something to the effect that all Stanford programs are better
+than corresponding Berkeley ones, or something like there isn't a Berkeley
+program with a higher rating than all of Stanford's programs.</font></li>
+</blockquote>
+
+<h4>
+Question 29:</h4>
+
+<pre>SELECT COUNT(*) + 1
+FROM&nbsp;&nbsp; Rating
+WHERE&nbsp; prog = 'Math'
+AND&nbsp;&nbsp;&nbsp; score > (SELECT score
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; Rating
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; prog = 'Math'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp; univ = 'Stanford');</pre>
+Or,
+<pre>SELECT COUNT(*) + 1
+FROM&nbsp;&nbsp; Rating r1, Rating r2
+WHERE&nbsp; r1.prog = 'Math'
+AND&nbsp;&nbsp;&nbsp; r2.prog = 'Math'
+AND&nbsp;&nbsp;&nbsp; r2.univ = 'Stanford'
+AND&nbsp;&nbsp;&nbsp; r1.score > r2.score;</pre>
+<b><font size=-1>Grading by Mark:</font></b>
+<blockquote>
+<li>
+<font size=-1>6 points for a perfect solution.</font></li>
+
+<li>
+<font size=-1>5.5 for forgetting either the <tt>+1</tt>, mixing up the
+<tt>></tt>
+for <tt>>=</tt>, or having an unnecessary subquery <tt>SELECT ... FROM
+(SELECT * FROM ...)</tt>.</font></li>
+
+<li>
+<font size=-1>5 for combining these errors, forgetting to check for Stanford,
+or forgetting to do a <tt>prog = 'Math'</tt> somewhere.</font></li>
+
+<li>
+<font size=-1>Somewhere in the vicinity of 4 points for getting the right
+idea, but being confused about <tt>GROUP</tt> <tt>BY</tt> and having to
+get a solution that does not work.</font></li>
+
+<li>
+<font size=-1>Around 1.5 points for trying to use the Oracle special feature
+of <tt>ROWNUM</tt>. Most of these solution did not always work, anyway.
+Recursive solutions also received nearly this amount of points (recursion
+is in SQL3, not SQL2).</font></li>
+
+<li>
+<font size=-1>Around 0.5 or 1 point for something in SQL that showed you
+were trying to think about the problem.</font></li>
+</blockquote>
+
+<h4>
+Question 30:</h4>
+
+<pre>WITH RECURSIVE Closure(attr) AS
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT attr
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; AttrSet)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT rhs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; Closure, FD
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; attr = lhs)
+SELECT * FROM Closure;</pre>
+<b><font size=-1>Grading by Mike:</font></b>
+<blockquote>
+<li>
+<font size=-1>-1 no "query" part in the <tt>WITH</tt> statement.</font></li>
+
+<li>
+<font size=-1>-1.5 adding a "<tt>NOT IN Closure</tt>" clause condition
+(not monotonic).</font></li>
+
+<li>
+<font size=-1>-.5 large amounts of query redundancy.</font></li>
+
+<li>
+<font size=-1>-.5 some larger syntax errors.</font></li>
+
+<li>
+<font size=-1>-1.5 computing the <i>FD</i> closure and <i>incorrectly</i>
+querying it.</font></li>
+
+<li>
+<font size=-1>-1 not using <tt>AttrSet</tt> for the base case (e.g. using
+<tt>lhs</tt>
+of <tt>FD</tt>).</font></li>
+
+<li>
+<font size=-1>-1.5 (or more) writing a non-recursive query (e.g. joining
+<tt>FD</tt>
+with <tt>AttrSet</tt> only, instead of <tt>FD</tt> and <tt>Closure</tt>).</font></li>
+</blockquote>
+
+<h4>
+Question 31:</h4>
+
+<pre>(SELECT k1.person1, k2.person2
+&nbsp;FROM&nbsp;&nbsp; Knows k1, Knows k2
+&nbsp;WHERE&nbsp; k1.person2 = k2.person1
+&nbsp;AND&nbsp;&nbsp;&nbsp; k1.person1 &lt;> k2.person2)
+EXCEPT
+(SELECT *
+&nbsp;FROM&nbsp;&nbsp; Knows);</pre>
+<b><font size=-1>Grading by Mike:</font></b>
+<p><font size=-1>Almost all of the scores fell into these categories:</font>
+<blockquote>
+<li>
+<font size=-1>5 perfect / almost perfect.</font></li>
+
+<li>
+<font size=-1>4.5 forgetting <tt>k1.p1 &lt;> k2.p2</tt>.</font></li>
+
+<li>
+<font size=-1>4 returning distance equal to 3.</font></li>
+
+<li>
+<font size=-1>4 unsuccessful attempt to check the short circuit case (distance
+equal to 1).</font></li>
+
+<li>
+<font size=-1>3 no check for short circuit.</font></li>
+
+<li>
+<font size=-1>2.5 returning distance less than or equal to 3, without checking
+for short circuit.</font></li>
+</blockquote>
+
+<h4>
+Question 32:</h4>
+This question is tricky. First, here is a solution which is imperfect (but
+close enough):
+<pre>WITH RECURSIVE GatesDistance(person, distance) AS
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT person2, 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; Knows
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; person1 = 'Mr. Gates')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT *
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; GatesDistance)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT k.person2, gd.distance + 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; GatesDistance gd, Knows k
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; gd.person = k.person1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp; k.person2 NOT IN
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT person FROM GatesDistance))
+SELECT 'Mr. Gates', person, distance
+FROM&nbsp;&nbsp; Gates
+WHERE&nbsp; person &lt;> 'Mr. Gates';</pre>
+The solution above is guaranteed to converge to a fixed point for any finite
+instance of <tt>Knows</tt>. The <i>n</i>-th iteration find all persons
+within distance <i>n</i> from Mr. Gates; the next iteration will add persons
+at a distance of <i>n</i>+1 from Mr. Gates. The condition <tt>k.person2
+NOT IN (SELECT person FROM GatesDistance)</tt> guarantees the convergence
+of the fixed-point iteration when <tt>Knows</tt> contains cycles. This
+condition also ensures that the output distances are indeed minimum.
+<p>Strictly speaking, however, this recursion is not linear. What's worse,
+it's not even stratified since <tt>GatesDistance</tt> is not monotone w.r.t.
+itself, according to our definition of monotonicity. For example, suppose
+that <tt>Knows</tt> currently contains ('Mr. Gates', 'X'), ('Mr. Gates',
+'Y'), and ('Y', 'Z'); <tt>GatesDistance</tt> currently contains ('X', 1)
+and ('Y', 1); at this point, the result of the query contains ('X', 1),
+('Y', 1), and ('Z', 2). Now, suppose we add ('Z', 1) to <tt>GatesDistance</tt>.
+Then, the result of the query would contain ('X', 1), ('Y', 1), and ('Z',
+1). The old tuple ('Z', 2) has been invalidated. On the other hand, this
+nonmonotonicity problem will never come up in the fixed-point iteration,
+because new tuples are added to <tt>GatesDistance</tt> in the breadth-first
+order.
+<p>Actually there is a linear and stratified solution, although it is less
+efficient than the solution above:
+<pre>WITH RECURSIVE GatesDistance(person, distance) AS
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT person2, 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; Knows
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; person1 = 'Mr. Gates')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT k.person2, gd.distance + 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; GatesDistance gd, Knows k
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; gd.person = k.person1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND&nbsp;&nbsp;&nbsp; gd.distance &lt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT COUNT(*) - 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; ((SELECT person1 FROM Knows)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT person2 FROM Knows))))
+SELECT person, MIN(distance)
+FROM&nbsp;&nbsp; GatesDistance
+GROUP BY person
+HAVING person &lt;> 'Mr. Gates';</pre>
+Here, <tt>GatesDistance</tt> is monotone w.r.t. both itself and <tt>Knows</tt>.
+The condition <tt>gd.distance &lt; (SELECT COUNT(*) ...)</tt> guarantees
+that the fixed-point iteration will terminate, after it has explored all
+paths of length <i>m</i>-1 from Mr. Gates, where <i>m</i> is the total
+number of persons in the database (any path of length <i>m</i> or longer
+will definitely contain a cycle).
+<p><b><font size=-1>Grading by Jun:</font></b>
+<blockquote>
+<li>
+<font size=-1>-1 if your solution is equivalent to the first (imperfect)
+solution. That is, the recursion is not stratified; however, in practice,
+every <tt>GatesDistance</tt> tuple computed by the current step of the
+fixed-point iteration will be returned again in the next step.</font></li>
+
+<li>
+<font size=-1>-2.5 if your solution is not stratified; moreover, if you
+really carry out the fixed-point iteration, you will find some tuples missing
+in the final result. This is a rather common mistake. Many of you included
+the condition <tt>k.person2 NOT IN ...</tt>, but didn't include <tt>UNION
+(SELECT * FROM GatesDistance)</tt>. Consequently, the <i>n</i>-th step
+only returns persons at distance 1 or <i>n</i> from Mr. Gates; it won't
+return those at distances 2 to <i>n</i>-1!</font></li>
+
+<li>
+<font size=-1>-2.5 if the fixed-point iteration won't converge when <tt>Knows</tt>
+contains cycles, say, ('Mr. Gates', 'X'), ('X', 'Y'), and ('Y', 'X'). In
+order to guarantee convergence, you need a condition such as <tt>k.person2
+NOT IN ...</tt> or <tt>gd.distance &lt; ...</tt>, discussed above.</font></li>
+
+<li>
+<font size=-1>-6 if your query correctly computes the set of persons Mr.
+Gates knows (directly or indirectly), but it doesn't compute their distances
+from Mr. Gates at all.</font></li>
+</blockquote>
+
+<hr ALIGN=LEFT WIDTH="100%">
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><font size=-2>Jun Yang</font></td>
+
+<td ALIGN=RIGHT><font size=-2>CS145 Spring 1999</font></td>
+</tr>
+</table>
+
+</body>
+</html>

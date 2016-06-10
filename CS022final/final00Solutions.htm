@@ -1,0 +1,504 @@
+
+<!-- saved from url=(0056)http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CS145 Final Exam Solutions</title>
+</head>
+<body lang="EN" bgcolor="DDDDCC">
+<h1 align="CENTER">CS145 Final Exam Solutions</h1>
+
+<h3>Index</h3>
+
+<center><table border="2">
+<tbody><tr>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#1">1</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#2">2</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#3">3</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#4">4</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#5">5</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#6">6</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#7">7</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#8">8</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#9">9</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#10">10</a></td>
+</tr>
+<tr>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#11">11</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#12">12</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#13">13</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#14">14</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#15">15</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#16">16</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#17">17</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#18">18</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#19">19</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#20">20</a></td>
+</tr>
+<tr>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#21">21</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#22">22</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#23">23</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#24">24</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#25">25</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#26">26</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#27">27</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#28">28</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#29">29</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#30">30</a></td>
+</tr>
+<tr>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#31">31</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#32">32</a></td>
+<td><a href="http://infolab.stanford.edu/~ullman/fcdb/aut00/fsol.html#33">33</a></td>
+</tr>
+</tbody></table></center>
+<p>
+
+
+<a name="1"></a>
+</p><h3>Problem 1: (d)</h3>
+
+I threatened to put this on the exam, and here it is problem #1.
+In general, ALL is a more stringent requirement than ANY, so we expect
+that Q1 is contained in Q2.
+However, if <tt>SELECT c FROM S</tt>
+is empty, then it is impossible to satisfy ANY, while ALL
+is trivially satisfied.
+Then, Q2 is contained in Q1.
+Since both containments could be proper, the queries are different.
+
+<a name="2"></a>
+<h3>Problem 2: (d)</h3>
+
+Notice that the FROM- and WHERE-clauses of the queries are the same when
+you swap r1 and r3.
+Thus, they will produce the same answers but with the columns and
+column-headers swapped.
+To see that the relations are different, we have only to find an example
+where the result is not the same when columns are swapped.
+For example, if we take R(a,b) = {(0,1), (2,1), (2,3)}, then the answer
+to Q1 is {(0,2), (2,2), (2,2)} and the answer to Q2 is {(2,0), (2,2),
+(2,2)}.
+When computing the answer, don't forget to consider the possibility that
+some of r1, r2, and r3 may refer to the same tuple.
+<p>
+Note: several people answered (a) but pointed out that the results
+differed in the order of columns.
+While this difference is significant (try substituting one of these
+queries for the other in an <tt>INSERT</tt> statement, for example) I
+accepted that answer, since it indicated that you had understood what
+the queries were doing.
+
+<a name="3"></a>
+</p><h3>Problem 3: (b)</h3>
+
+Q1 produces those (x,y) pairs from R such that x is not in S and y is not
+in T.
+Q2 produces those (x,y) pairs from R such that it is not true that both
+x is in S and y is in T; i.e., either x is not in S or y is not in T.
+Thus, everything produced by Q1 is also produced by Q2.
+
+<a name="4"></a>
+<h3>Problem 4: (c)</h3>
+
+Q1 produces a-values that appear in some tuple of R and some tuple of S.
+Q2 produces a-values that appear in the <em>same</em> tuple in R and S.
+Thus, everything in Q2 is surely in Q1.
+
+<a name="5"></a>
+<h3>Problem 5: (a)</h3>
+
+These both produce the set of C's that are related to a B that is
+related to an A named Sue.
+
+<a name="6"></a>
+<h3>Problem 6: (d)</h3>
+
+This one is so tricky that I actually had the wrong answer, and didn't
+discover my error until I surveyed a random sample of answers and saw
+that people were preferring another answer.
+Q1 produces the set of C's that are related to a B that is related to an
+A named Sue.
+However, because of the way it is stated, a C that is related two
+<i>n</i> B's that are each related to an A named Sue will appear in the
+output bag <i>n</i> times.
+Notice that <tt>aName</tt> is not a key for A, so there is nothing wrong
+with there being many A's named Sue.
+<p>
+Q2 is more liberal than Q1 in that it will produce a C in the answer as
+long as there is <em>any</em> B related to an A named Sue.
+Thus, as sets, Q1 is contained in Q2.
+However, OQL produces bags, and Q2 can never produce the same C object
+more than once.
+Q1, however, can produce it many times.
+To see that Q1 and Q2 are different, consider the following objects:
+</p><p>
+</p><ol>
+<li>
+There are A objects a1 and a2.
+</li><li>
+a1 is named Sue; a2 is not.
+</li><li>
+There are B objects b1, b2, and b3, and C objects c1 and c2.
+</li><li>
+b1 is related to a1 and c1; so is b2.
+b3 is related to a2 and c2.
+</li></ol>
+<p>
+Then Q1 produces c2 not at all, but produces c1 twice --- once for the
+combination cc = c1 and bb = b1, the second time for the combination cc
+= c1, bb = b2.
+On the other hand, Q2 produces c1 once and c2 once.
+
+<a name="7"></a>
+</p><h3>Problem 7: (c)</h3>
+
+Another subtle one.
+Roughly, each query produces the bag of integers that are the counts of
+the sets of B's that are related to a single A.
+The difference is that Q1 also may produce some 0's if there are A's
+that are related to empty sets of B's.
+However, Q2 never looks at those A's and only produces the counts of the
+nonempty groups of B's.
+
+<a name="8"></a>
+<h3>Problem 8: (a)</h3>
+
+These queries each produce the set of pairs of nodes between which a
+path exist.
+It is more traditional to write the recursive rules with the order of
+subgoals reversed, e.g.,
+<p>
+</p><pre>     Path(x,y) &lt; Arc(x,z) &amp; Path(z,y)
+</pre>
+<p>
+in Q1.
+
+<a name="9"></a>
+</p><h3>Problem 9: (a)</h3>
+
+Each of these modifications has the effect of replacing every tuple of
+the form <i>(a,3)</i> for some <i>a</i> by the tuple <i>(a,2)</i>.
+If such a tuple appears more than once in R, the count is preserved as
+well.
+
+<a name="10"></a>
+<h3>Problem 10: (c)</h3>
+
+Q1 finds tuples where the <i>a</i>-component has the substring
+<tt>NULL</tt>.
+However, Q2 only finds tuples where that substring appears at either the
+beginning or the end.
+
+<a name="11"></a>
+<h3>Problem 11: (c)</h3>
+
+Q1 produces the largest element of R as many times as it appears in R.
+Q2 produces the same element, but only once.
+
+<a name="12"></a>
+<h3>Problem 12: (a)</h3>
+
+These are the same.
+Each groups by <i>a</i> and produces the set of all sizes of these
+groups.
+A count is produced only once, even if it is the size of several groups.
+Notice that it doesn't matter whether we count tuples, as in Q1, or
+count the values of a component of those tuples, as in Q2.
+Even if a group has duplicate values of <i>b</i>, each such value is
+counted.
+If we wanted duplicate <i>b</i>'s counted only once, we would have to
+say
+<p>
+</p><pre>     SELECT DISTINCT COUNT(DISTINCT b)
+</pre>
+
+<a name="13"></a>
+<h3>Problem 13: (d)</h3>
+
+In the E/R approach, the relation for B has only the attributes
+associated with B itself plus the key attribute(s) for the
+isa-hierarchy, which must be found at the root.
+
+<a name="14"></a>
+<h3>Problem 14: (b)</h3>
+
+Answer (a) is the schema for objects of type B; (c) is the schema for objects
+that are both B's and C's, and (d) is the schema for objects of type A
+that are neither B's nor C's.
+
+<a name="15"></a>
+<h3>Problem 15: (b)</h3>
+
+The relation for B has only the attributes of B, that is, <i>B(c,d)</i>.
+The relation for A has the key for A, including the attribute it
+``borrows'' from B, plus the other attributes for A, yielding
+<i>A(a,b,c)</i>.
+There is no relation constructed for the supporting relationship R.
+
+<a name="16"></a>
+<h3>Problem 16: (d)</h3>
+
+It is entirely possible that (0,1) pops up in the middle of T2's
+execution, because although the world has to look serializable from T1's
+point of view, the same is not true of T2.
+In fact, since T2 does not modify the database, the world will look
+serializable to T1 no matter when the two transactions execute.
+<p>
+However, <tt>REPEATABLE READ</tt> guarantees that if T2 has seen a tuple
+once, then it will always see it.
+In particular, having seen (2,3) in answer to the first query of T2,
+that tuple must be there in response to the second query (which it also
+satisfies), even if T1 has deleted it and committed.
+Answer (d) is the only one where the second response is not a superset
+of the first.
+
+<a name="17"></a>
+</p><h3>Problem 17: (a)</h3>
+
+An easy one: when the privilege is revoked from B, the <tt>CASCADE</tt>
+requires that it be revoked from C as well, because the only way C got
+that privilege was through B.
+
+<a name="18"></a>
+<h3>Problem 18: (c)</h3>
+
+Answer (a) is wrong because an attribute-based check cannot prevent deletions.
+Answer (b) is wrong because the foreign-key constraint is in the wrong
+direction.
+However, (c) is exactly what is needed, since the required constraint is
+a statement of what this foreign-key constraint means.
+
+<a name="19"></a>
+<h3>Problem 19: (d)</h3>
+
+Answer (a) doesn't make sense; you cannot apply <tt>SUM</tt> in the
+WHERE-clause (except in subqueries).
+Answer (b) doesn't even address the limit of $1,000,000.
+Answer (c) is not quite right.
+If an employee is the manager of two departments, then in the group for
+the department of that employee in <i>Emps</i>, that employee's salary
+counts twice.
+Answer (d) is exactly what is needed.
+It groups employees by department, sums their salary by departments, and
+checks for groups with a sum over $1,000,000.
+
+<a name="20"></a>
+<h3>Problem 20: (a)</h3>
+
+Nothing much to this question.
+<tt>UNKNOWN</tt> is the truth-value of any comparison involving
+<tt>NULL</tt>.
+
+<a name="21"></a>
+<h3>Problem 21: (c)</h3>
+
+Notice that the INSERT statement is executed 11 times, for <i>i</i> =
+1,2,...,11.
+The exit occurs after the insertion on the 11th round.
+Thus, (a) is wrong and (c) is a correct statement.
+Clearly (b) is wrong, since only teams with scores at most 11 are ever
+extracted from <i>Teams</i> or put into <i>NewTeams</i>.
+Answer (d) is wrong because the effects of committed modifications on the
+database are permanent.
+Note that any successful PL/SQL statement is committed at the end, even
+if you don't say <tt>COMMIT</tt> anywhere.
+
+<a name="22"></a>
+<h3>Problem 22: (c)</h3>
+
+While it is helpful if <tt>score</tt> is a key for teams, all that is
+really needed is that there be exactly one team for each of the first 11
+scores (1 through 11).
+We could, for example, have several teams with a score of 12 and yet the
+PL/SQL would execute successfully.
+
+<a name="23"></a>
+<h3>Problem 23: (a)</h3>
+
+The five <i>(a,b,c,d)</i> tuples in the natural join are
+(0,1,2,3), (4,5,2,3), (4,5,6,7), (4,5,10,11), and (4,5,10,3).
+
+<a name="24"></a>
+<h3>Problem 24: (b)</h3>
+
+First, let us compute the outer join of R and S.
+The natural join has tuples (0,1,2), (4,5,2), (4,5,6), and (4,5,10).
+Now, (8,9) is dangling in R, and (13,10) is dangling in S, so we add
+(8,9,NULL) and (NULL,13,10).
+<p>
+Then, we must take the outer join of this relation of six tuples with
+relation T.
+We get the five tuples in the answer to Question 23, of course.
+However, tuple (NULL,13,10) joins with (10,11) and (10,3) of T to give
+us tuples (NULL,13,10,11) and (NULL,13,10,3).
+In addition, (8,9,NULL) is dangling, since the NULL cannot match any
+value in T, even another NULL.
+Thus, we add (8,9,NULL,NULL), a total of eight tuples.
+
+<a name="25"></a>
+</p><h3>Problem 25: (d)</h3>
+
+Answers (a) and (b) are wrong, since REF cannot be applied to an attribute name
+by itself.
+Rather, it must be applied to a value, which is a component of a
+specific tuple.
+Answer (c) is wrong because THE only applies to values of table type.
+Answer (d) works; I tried it.
+
+<a name="26"></a>
+<h3>Problem 26: (c)</h3>
+
+Think about the five attributes arranged in a circle, with A following
+E.
+Then the five FD's say that any two adjacent attributes functionally
+determine the next around the circle (clockwise, say).
+That tells us that any three attributes must have two adjacent ones on
+the circle, those determine the attribute clockwise, which (together
+with one of the original three) determines the next, and so on.
+That is, any three or more attributes is surely a superkey.
+<p>
+However, the five pairs of attributes that are not adjacent on the
+circle (the five pairs that are <em>not</em> left sides of given FD's)
+are not keys; in fact they don't determine any attributes except
+themselves.
+Surely the empty set and the five singletons are not superkeys either.
+Thus, there are 11 subsets of {A,B,C,D,E} that are <em>not</em>
+superkeys, and the remaining 32 - 11 = 21 <em>are</em> superkeys.
+
+<a name="27"></a>
+</p><h3>Problem 27: (b)</h3>
+
+Here's the trick.
+No FD derived from the given FD's can have a singleton left side.
+Thus, any projected FD will have to have at least two attributes on the
+left, and in order to be nontrivial it will have to have a third
+attribute on the right.
+Thus, in any three-attribute schema, the left side of a nontrivial FD is
+surely a superkey, since it determines three attributes.
+
+<a name="28"></a>
+<h3>Problem 28: (d)</h3>
+
+Answer (a) isn't even true for sets.
+In fact, the left side is the complement of the right side.
+Answer (b) is true for both sets and bags.
+For bags, both sides contain an element <i>x</i> as many times as it is
+in S plus twice the number of times it is in R.
+<p>
+Answer (c) likewise holds for both sets and bags.
+For bags, each side contains <i>x</i> the minimum of the number of times
+it appears in R and S.
+That count is true for the left side by definition of bag intersection.
+To see it holds for the right side, let <i>x</i> appear <i>r</i> times in R and
+<i>s</i> times in S.
+If <i>r</i> &lt;= <i>s</i>, then <i>x</i> appears <i>r</i> - 0 = <i>r</i> times on the right.
+If <i>r</i> &gt; <i>s</i>, then <i>x</i> appears <i>r</i> - (<i>r</i> - <i>s</i>) = <i>s</i> times on the
+right.
+In either case, the number of appearances of <i>x</i> is the smaller of <i>r</i>
+and <i>s</i>.
+</p><p>
+However, (d) is true for sets but not bags.
+It is easy to check for sets using Venn diagrams or similar reasoning.
+However, for bags, let <i>x</i> appear once in R and once in S.
+Then <i>x</i> appears twice on the left and only once on the right.
+
+<a name="29"></a>
+</p><h3>Problem 29: (b)</h3>
+
+If two tuples that agree on A and disagree on B remain in the relation,
+then there is sure to be a violation of the MVD.
+To see why, not that if we swap different B's, we change by one the
+number of 1's in each tuple.
+Thus, since all tuples of R
+have an even number of 1's, the tuples with B's swapped cannot be in R.
+Therefore, there can be only two of the four tuples with A = 0 remaining
+and only two of the four tuples with A = 1.
+Should there be three from either group, then two would have to differ
+in B.
+We conclude that 4 tuples is the maximum we can leave.
+
+<a name="30"></a>
+<h3>Problem 30: (b)</h3>
+
+If we put one attribute on the left side of a FD, say A -&gt; B, then we
+can surely find two tuples in R that agree on A and disagree on B.
+All we need to know is that after fixing A, we can choose C to be either
+0 or 1 so that the sum of the number of 1's among the A, B, and C
+components is even.
+Then choosing D = 0, we can guarantee that the resulting tuple is in R.
+Note that this argument applies equally well to any three attributes, so
+we see that given any attribute on the left and any other on the right,
+we can find in R two tuples that agree on the left and disagree on the
+right.
+That is, this FD is not satisfied.
+<p>
+Similarly, if we pick any two attributes on the left and a third on the
+right, we can fix the two on the left and find two tuples that disagree
+on the right.
+For each tuple, pick the fourth attribute to be 0 or 1, whichever makes
+the number of 1's in the tuple even.
+</p><p>
+However, if there are three attributes on the left, then R has only one
+tuple with any given combination of values for those attributes, and
+therefore the FD must be satisfied.
+Thus, only the four FD's with three attributes on the left are
+satisfied.
+
+<a name="31"></a>
+</p><h3>Problem 31: (d)</h3>
+
+You don't use the colon in the WHEN clause, but you must in the body of
+the trigger.
+
+<a name="32"></a>
+<h3>Problem 32: (d)</h3>
+
+This turned out to be surprisingly hard.
+Answer (a) is incorrect, because it is not a model.
+If you set <i>x</i> = 3 in the second rule, you violate that rule.
+That is, the subgoals of the body, <i>B(3)</i> and <tt>NOT</tt>
+<i>P(3)</i>, are both true, yet the head, <i>Q(3)</i>, is false.
+Similarly, (b) is incorrect.
+If you set <i>x</i> = 2, you violate the first rule.
+Answer (c) is the stratified model, so that is not correct.
+<p>
+However, (d) is a model other than the stratified model.
+Even though <i>Q(2)</i> makes no ``sense,'' it doesn't violate anything.
+The second rule, with <i>x</i> = 2, has a true head, and thus cannot be
+false.
+The third rule with <i>x</i> = 2 has a false body, and thus also cannot
+be false.
+You may check that all the rules are rendered true by each possible
+value of <i>x</i>.
+
+<a name="33"></a>
+</p><h3>Problem 33: (a)</h3>
+
+The last problem also fooled a lot of people.
+I suspect you were calculating averages so fiercely that you forgot to
+check for a primary-key violation.
+The sequence of events is as follows:
+<p>
+</p><ol>
+<li>
+The insert of Fred succeeds, because his salary is less than the current
+average of 20,000.
+The new average salary is 18,000, and the total is 72,000.
+<p>
+</p></li><li>
+The update of Sue's salary is rejected because it is higher than the
+average.
+<p>
+</p></li><li>
+The insertion of a tuple for Sally is rejected because there is already
+a tuple with the key value <tt>'Sally'</tt>.
+<p>
+</p></li><li>
+The deletion of Joe's tuple succeeds; neither of the constraints on
+<tt>Foo</tt> affects a deletion.
+The total salary is decreased by Joe's 20,000 salary, to 52,000.
+
+
+
+
+</li></ol></body></html>

@@ -1,0 +1,350 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta name="Author" content="Jun Yang">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (X11; U; SunOS 5.6 sun4u) [Netscape]">
+   <title>CS145 Midterm Sample Solution</title>
+</head>
+<body>
+
+<center>
+<h2>
+CS145 Midterm Sample Solution</h2></center>
+
+<hr ALIGN=LEFT WIDTH="100%">
+<p>Question 17 is graded by Charity, Question 18 by Mike, Question 19 by
+Mark, and Question 20 by Jun. If you want to discuss the grading of these
+questions, you should give your exam to the relevant person, together with
+a note explaining why you think the grading was questionable.
+<p>
+<hr ALIGN=LEFT WIDTH="100%">
+<h4>
+Question 1: (B)</h4>
+If one X is related to a set of Y's and vice versa, then the relationship
+between X and Y is <i>many-many</i>. If one X is related to one Y's but
+one Y is related a set of X's, then the relationship between X and Y and
+<i>many-one</i>.
+If one X is related to one Y and vice versa, then the relationship between
+X and Y is <i>one-one</i>.
+<h4>
+Question 2: (D)</h4>
+In a multiway relationship set, an arrow pointing into entity set X means
+that if you pick one entity from each other entity set, together they determine
+one entity in X. So, for this question, the FD's in <i>R(A, B, C, D)</i>
+are <i>ABC</i><tt>-></tt><i>D</i>, <i>ABD</i><tt>-></tt><i>C</i>, and <i>ACD</i><tt>-></tt><i>B</i>.
+In other words, the keys are <i>{A, B, C}</i>, <i>{A, B, D}</i>, and <i>{A,
+C, D}</i>.
+<h4>
+Question 3: (C)</h4>
+When we translate a subclass in E/R to a relation, we include all attributes
+attached to the subclass and its inherited key. In the case of ConferenceRooms,
+we need to include capacity and the key of Rooms. Rooms is a weak entity
+set, so its key is {name, number}, where name comes from Buildings via
+the In relationship set.
+<h4>
+Question 4: (C)</h4>
+In the ODL-style translation of subclasses, each object is represented
+in only one relation and all information on the object goes into that relation.
+Therefore, <tt>ConferenceRoom_ODL</tt> contains the <i>n</i> conference
+rooms, while <tt>Room_ODL</tt> contains the rooms that are not conference
+rooms (<i>m-n</i> of them).
+<h4>
+Question 5: (A)</h4>
+I is true because every ConferenceRooms entity is also a Rooms entity.
+II is false because there might be Buildings entities that are not related
+to any Rooms entity (i.e., there might be buildings with no rooms).
+<h4>
+Question 6: (D)</h4>
+<i>AB</i><tt>-></tt><i>C</i> does not hold because of the first and the
+third rows.
+<h4>
+Question 7: (C)</h4>
+Since <i>B</i> and <i>E</i> do not appear on the right side of any FD,
+they must be a part of every key. Let's compute the closure of <i>{B, E}</i>.
+First, apply <i>B</i><tt>-></tt><i>D</i> to get <i>D</i> into the closure.
+Then, <i>DE</i><tt>-></tt><i>A</i> adds <i>A</i> into the closure. Finally,
+<i>AB</i><tt>-></tt><i>C</i>
+adds <i>C</i> into the closure. The closure of <i>{B, E}</i> covers all
+attributes of <i>S</i>, so it's a superkey of <i>S</i>. But we also know
+that <i>B</i> and <i>E</i> must be a part of every key, so <i>{B, E}</i>
+is the only key.
+<h4>
+Question 8: (B)</h4>
+I is incorrect because <i>BE</i><tt>-></tt><i>AC</i> also holds in <i>S2</i>
+(which should be rather obvious after Question 7 because <i>{B, E}</i>
+is a key). II is true because <i>AB</i> does not contain <i>{B, E}</i>,
+the only key of <i>S2</i>. III is incorrect because <i>S4</i> should be
+<i>(A,
+B, E)</i> instead of <i>(C, E)</i>.
+<h4>
+Question 9: (A)</h4>
+I is true because <i>DE</i><tt>-></tt><i>A</i> is also a BCNF violation
+for <i>S</i>. II is false: if we decompose using <i>DE</i><tt>-></tt><i>A</i>
+we will get a relation with attributes <i>(A, D, E)</i>, which we will
+not get by decomposing with <i>B</i><tt>-></tt><i>D</i> first.
+<h4>
+Question 10: (A)</h4>
+Since <i>A</i> does not appear on the right side of any FD, it must be
+in every key.
+<h4>
+Question 11: (B)</h4>
+Since every key contains <i>A</i>, it cannot contain <i>C</i>. If it also
+contains <i>C</i>, then it would not be minimal: we can safely take <i>C</i>
+out and still have a key because <i>C</i> is determined by <i>A</i> (according
+to <i>A</i><tt>-></tt><i>BC</i>).
+<h4>
+Question 12: (A)</h4>
+This one requires more than average thought. If some key contains <i>E</i>,
+then the third FD must be nontrivial and its left side must contain <i>E</i>.
+In this case, <i>{A, E}</i> is a key, and it easy to see that <i>{A, D}</i>
+is a key too. Thus, I is true. II is false because the third FD could be
+trivial. In this case, the only key is <i>{A, D}</i>.
+<h4>
+Question 13: (C)</h4>
+Yes, III is correct.
+<h4>
+Question 14: (D)</h4>
+<i>{A}</i> may no longer be a key. Consider the following example:
+<br>&nbsp;
+<center><table COLS=3 WIDTH="100%" >
+<tr>
+<td>
+<table BORDER COLS=2 WIDTH="100%" >
+<caption><i>R</i>:</caption>
+
+<tr>
+<td><i>A</i></td>
+
+<td><i>B</i></td>
+</tr>
+
+<tr>
+<td>apple</td>
+
+<td>sweet</td>
+</tr>
+
+<tr>
+<td>lemon</td>
+
+<td>sour</td>
+</tr>
+</table>
+&nbsp;</td>
+
+<td>
+<table BORDER COLS=2 WIDTH="100%" >
+<caption><i>S</i>:</caption>
+
+<tr>
+<td><i>A</i></td>
+
+<td><i>B</i></td>
+</tr>
+
+<tr>
+<td>apple</td>
+
+<td>sour</td>
+</tr>
+</table>
+&nbsp;</td>
+
+<td>
+<table BORDER COLS=2 WIDTH="100%" >
+<caption><i>T</i>:</caption>
+
+<tr>
+<td><i>A</i></td>
+
+<td><i>B</i></td>
+</tr>
+
+<tr>
+<td>apple</td>
+
+<td>sweet</td>
+</tr>
+
+<tr>
+<td>lemon</td>
+
+<td>sour</td>
+</tr>
+
+<tr>
+<td>apple</td>
+
+<td>sour</td>
+</tr>
+</table>
+&nbsp;</td>
+</tr>
+</table></center>
+
+<h4>
+Question 15: (D)</h4>
+I is incorrect: if somebody works for Microsoft and owns both Microsoft
+and Yahoo! stocks, he will be returned by the query. II and III are correct.
+<h4>
+Question 16: (A)</h4>
+I is obviously correct. However, II is not, because the join could duplicate
+salaries and result in an incorrect average. Suppose that X's salary is
+$30000 and Y's salary is $60000. X owns 200 shares of Microsoft. Y owns
+200 shares of Microsoft and 200 shares of Yahoo!. When <tt>FROM</tt> and
+<tt>WHERE</tt>
+clauses are done, we end up with one tuple about X but two tuples about
+Y. Then, when we take the average we get ($30000+$60000+$60000)/3 = $50000.
+But the correct answer should be ($30000+$60000)/2 = $45000.
+<h4>
+Question 17:</h4>
+
+<pre>PROJ_{SSN} ( SEL_{employerSymbol='IFMX'} (Person)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NATURAL-JOIN
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SEL_{symbol='ORCL' AND numShares>50} (Holding) )</pre>
+<b><font size=-1>Grading by Charity:</font></b>
+<blockquote>
+<li>
+<font size=-1>-.5 for <tt>>=</tt> instead of <tt>></tt></font></li>
+
+<li>
+<font size=-1>-.5 for selecting <tt>SSN</tt> instead of <tt>Person.SSN</tt>
+or <tt>Holding.SSN</tt> when the two relation are crossed or theta-joined</font></li>
+
+<li>
+<font size=-1>-1&nbsp; for writing SQL queries --- if the query works</font></li>
+
+<li>
+<font size=-1>-2&nbsp; for neglecting a condition (for example, not selecting
+for ORCL stocks)</font></li>
+</blockquote>
+
+<h4>
+Question 18:</h4>
+
+<pre>SELECT SUM(numShares)
+FROM&nbsp;&nbsp; Person, Holding
+WHERE&nbsp; employerSymbol = 'IFMX'
+AND&nbsp;&nbsp;&nbsp; Person.SSN = Holding.SSN
+AND&nbsp;&nbsp;&nbsp; symbol = 'ORCL';</pre>
+Alternate solution:
+<pre>SELECT SUM(numShares)
+FROM&nbsp;&nbsp; Holding
+WHERE&nbsp; symbol = 'ORCL' AND
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SSN IN&nbsp;(SELECT&nbsp;SSN
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; Person
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; employerSymbol = 'IFMX');</pre>
+<b><font size=-1>Grading by Mike:</font></b>
+<blockquote>
+<li>
+<font size=-1>-2: Forgetting to join on <tt>SSN</tt> (<tt>Person.SSN =
+Holding.SSN</tt>)</font></li>
+
+<li>
+<font size=-1>-1: Forgetting a clause in the <tt>WHERE</tt> (e.g. IFMX
+or ORCL)</font></li>
+
+<li>
+<font size=-1>-1: Wrong aggregate (e.g. count)</font></li>
+
+<li>
+<font size=-1>0: Small / Inconsequential Syntax Error (e.g. quotes)</font></li>
+
+<li>
+<font size=-1>-.5: Syntax Error (e.g. "<tt>=</tt>" instead of "<tt>IN</tt>")</font></li>
+
+<li>
+<font size=-1>-.5: Overly complicated query (e.g. "<tt>GROUP BY</tt>" or
+multiple sub-selects)</font></li>
+</blockquote>
+<font size=-1>Some of the submissions had more substantial logic or syntax
+errors and the grading scheme above just didn't apply.&nbsp; For those
+people, I assigned a grade, somewhat arbitrarily (probably between 0 and
+3.5) based on how much of the "idea" of the question that they captured.</font>
+<h4>
+Question 19:</h4>
+
+<pre>PROJ_{symbol} (StockPrice)
+-
+PROJ_{s1.symbol} (
+&nbsp;&nbsp;&nbsp; RENAME_{s1}(StockPrice)
+&nbsp;&nbsp;&nbsp; THETA-JOIN_{s1.symbol=s2.symbol AND
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1.date&lt;s2.date AND s1.price>=s2.price}
+&nbsp;&nbsp;&nbsp; RENAME_{s2}(StockPrice)
+)</pre>
+<font size=-1><b>Grading by Mark:</b> Generally, a common mistake people
+made was to find all stocks who price went up at some point:</font>
+<pre><font size=-1>&nbsp;&nbsp;&nbsp; /* WRONG! */
+&nbsp;&nbsp;&nbsp; PROJ_{s1.symbol} (
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RENAME_{s1}(StockPrice)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THETA-JOIN_{s1.symbol=s2.symbol AND
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1.date>s2.date AND s1.price>s2.price}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RENAME_{s2}(StockPrice)
+&nbsp;&nbsp;&nbsp; )</font></pre>
+<font size=-1>A correctly written query doing this received 2 points. 1.5
+points was given for this without the <tt>s1.symbol=s2.symbol</tt> condition.
+A 1 point answer was almost any relational algebra query. You got 2 points
+if you wrote a SQL query that is right, but is not easy to translate to
+relational algebra (e.g., use <tt>ANY</tt>, <tt>EXISTS</tt>, etc.). 1 point
+for a SQL query making the same mistake as above.</font>
+<p><font size=-1>If you got near the correct answer (did not make the mistake
+above), you got 4.5 points if you reported all non-falling stocks rather
+than all rising stocks (e.g. <tt>&lt;</tt> instead of <tt>&lt;=</tt>).&nbsp;
+You got 4 points if you forgot the condition needed to join on the symbols.&nbsp;
+(Remember, this is necessary for theta-join; it is only unnecessary if
+you used a natural join and made sure the column names for symbol were
+the same.)&nbsp; A 3 or 3.5 point answer had the right idea, but made more
+major mistakes.</font>
+<h4>
+Question 20:</h4>
+
+<pre><tt>SELECT symbol, price
+FROM&nbsp;&nbsp; StockPrice s
+WHERE&nbsp; symbol IN
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT&nbsp;&nbsp; symbol
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp;&nbsp;&nbsp; Holding
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP BY symbol
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HAVING&nbsp;&nbsp; COUNT(*) >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT 0.4*COUNT(DISTINCT SSN) FROM Holding))
+AND&nbsp;&nbsp;&nbsp; date >= ALL
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (SELECT date
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp; StockPrice
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE&nbsp; symbol = s.symbol);</tt></pre>
+<b><font size=-1>Grading by Jun:</font></b>
+<blockquote>
+<li>
+<font size=-1>+2 for making a commendable attempt at the problem and correctly
+showing the overall idea and structure of the query</font></li>
+
+<li>
+<font size=-1>+2 for correctly identifying all "widely-held" stocks</font></li>
+
+<li>
+<font size=-1>+2 for correctly identifying the latest price for each stock</font></li>
+</blockquote>
+<font size=-1>Common mistakes include:</font>
+<blockquote>
+<li>
+<font size=-1>Applying an aggregate function to a subquery (e.g., <tt>COUNT(SELECT&nbsp;...)</tt>)<br>
+<i>Aggregate functions in SQL&nbsp;should be applied to attributes!</i></font></li>
+
+<li>
+<font size=-1>Applying quantifiers to attributes (e.g., <tt>>= ANY&nbsp;date</tt>)<br>
+<i>Quantifiers should be applied to subqueries!</i></font></li>
+
+<li>
+<font size=-1><tt>HAVING</tt> clause does not have a condition (e.g., <tt>HAVING&nbsp;MAX(DATE)</tt>)</font></li>
+</blockquote>
+
+<hr ALIGN=LEFT WIDTH="100%">
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><font size=-2>Jun Yang</font></td>
+
+<td ALIGN=RIGHT><font size=-2>CS145 Spring 1999</font></td>
+</tr>
+</table>
+
+</body>
+</html>

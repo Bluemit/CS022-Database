@@ -1,0 +1,251 @@
+<HTML>
+<HEAD><meta http-equiv=Content-Type content='text/html; charset=UTF-8'>
+
+<TITLE>CS145 Midterm Solutions</TITLE>
+</HEAD>
+<BODY LANG="EN" BGCOLOR="DDDDCC">
+<H1 ALIGN = CENTER>CS145 Midterm Solutions</H1>
+
+<H3>Index</H3>
+
+<CENTER><TABLE BORDER=2>
+<TR>
+<TD><A HREF = "#1">1</TD>
+<TD><A HREF = "#2">2</TD>
+<TD><A HREF = "#3">3</TD>
+<TD><A HREF = "#4">4</TD>
+<TD><A HREF = "#5">5</TD>
+<TD><A HREF = "#6">6</TD>
+<TD><A HREF = "#7">7</TD>
+<TD><A HREF = "#8">8</TD>
+<TD><A HREF = "#9">9</TD>
+<TD><A HREF = "#10">10</TD>
+</TR>
+<TR>
+<TD><A HREF = "#11">11</TD>
+<TD><A HREF = "#12">12</TD>
+<TD><A HREF = "#13">13</TD>
+<TD><A HREF = "#14">14</TD>
+<TD><A HREF = "#15">15</TD>
+</TR>
+</TABLE></CENTER>
+<P>
+
+<A NAME = "1"></A>
+<H3>Problem 1: (d)</H3>
+
+The schemas aren't even the same.
+Q1 produces tuples with three components and Q2 produces tuples with
+four components, so their results are different whenever the join is
+nonempty.
+
+<A NAME = "2"></A>
+<H3>Problem 2: (a)</H3>
+
+Whether you throw out the tuples with <I>A</I> other than 1 before or
+after the join doesn't matter.
+The result is still the join of all tuples in <I>R</I> and <I>S</I> that
+match in <I>B</I> and have <I>A</I> = 1.
+
+<A NAME = "3"></A>
+<H3>Problem 3: (c)</H3>
+
+The difference is seen if a tuple of <I>R</I> joins with several tuples
+of <I>S</I>, say (a,b) in <I>R</I> and (b,c1) and (b,c2) in <I>S</I>.
+Q1 will produce two copies of <I>a</I> from these two tuples.
+However, Q2 will look at the tuple (a,b) of <I>R</I> once, decide that
+it meets the condition of the where-clause, and produce one copy of
+<I>a</I>.
+
+<A NAME = "4"></A>
+<H3>Problem 4: (a)</H3>
+
+In each case, one copy of every tuple in <I>R</I> is produced.
+
+<A NAME = "5"></A>
+<H3>Problem 5: (d)</H3>
+
+Normally, the number of distinct values of <I>B</I> will not be the same
+as the number of tuples (unless <I>B</I> is a key).
+Thus, the tuples produced by the same query are normally different.
+
+<A NAME = "6"></A>
+<H3>Problem 6: (a)</H3>
+
+Q1 obviously produces <I>delta(R)</I> (in relational-algebra terms).
+However, since duplicate-elimination is the default for intersection, so
+does Q2.
+
+<A NAME = "7"></A>
+<H3>Problem 7: (d)</H3>
+
+Many people thought that <I>T</I> was redundant.
+I assume they imagined that <I>T</I> was necessarily the composition of
+<I>R</I> and <I>S</I>.
+However, there is nothing in the E/R model that requires it, nor should
+there be.
+<I>T</I> can in general map an <I>A</I>-entity to a completely different
+<I>C</I> entity from what you would get by following <I>R</I> then
+<I>S</I>.
+Put another way, if we didn't tell you what pairs were in relationship
+<I>T</I>, but let you see all the other entity sets and relationships,
+you couldn't figure out anything about what <I>T</I> was.
+<P>
+
+Others thought <I>R</I> was redundant.
+I assume that was because you remembered that when converting to
+relations, <I>R</I> goes away.
+However, the reason it goes away is because we introduce a relational
+structure, namely the relation for <I>A</I>, that includes the
+information of <I>R</I>.
+
+<A NAME = "8"></A>
+<H3>Problem 8: (b)</H3>
+
+The database schema is <I>A(a,b,d), B(b,e), C(c,f), S(b,c)</I>, and
+<I>T(a,b,c)</I>.
+
+<A NAME = "9"></A>
+<H3>Problem 9: (c)</H3>
+
+(0,1,4) has to be there, because we get it by flipping the middle
+components of (0,1,2) and (0,3,4).
+<P>
+(0,3,4) has to be there, because we said it was.
+<P>
+However, there is no reason (0,5,2) has to be there.
+For instance, we can add to the three given tuples the tuples (0,1,4)
+and (0,3,2), and the resulting five tuples satisfy the MVD but do not
+include (0,5,2).
+
+<A NAME = "10"></A>
+<H3>Problem 10: (a)</H3>
+
+Because they don't appear on the right of any FD, <I>A</I> and <I>E</I>
+must be in any key.
+However, it is easy to check that <I>AE^+ = ABCDE</I>, so <I>AE</I> is
+the only key.
+A number of people during the exam appeared to forget that in the
+relational model, keys are minimal, and we use ``superkey'' if we mean
+``superset of some key.''
+
+<A NAME = "11"></A>
+<H3>Problem 11: (d)</H3>
+
+Here are the closures of the left sides of the four choices:
+<I>AC^+ = ABCD, AE^+ = ABCDE, BC^+ = BCD, CE^+ = CE</I>.
+Thus, only in case (d) is the right side not in the closure of the left
+side.
+
+<A NAME = "12"></A>
+<H3>Problem 12: (b)</H3>
+
+First, we should figure out the key(s) for <I>BCDE</I>.
+Surely <I>E</I> is in any key, because it is not on the right of any FD.
+Once <I>E</I> is known to be in any key, there is no reason to consider
+<I>C</I> as a member of a key, because we can always ``get'' <I>C</I> by
+using the FD <I>E-&gt;C</I>.
+Thus, we need consider only <I>E</I> plus <I>B</I> or <I>D</I> or both.
+It is then easy to check that <I>BE</I> is a key, but <I>DE</I> is not,
+so <I>BE</I> is the only key.
+<P>
+Thus, (a), (c), and (d) are eliminated, because they each violate BCNF.
+Choice (b), <I>BE-&gt;D</I>, does not violate BNCF, and is easily
+seen to follow from the given FD's.
+
+<A NAME = "13"></A>
+<H3>Problem 13: (a or b)</H3>
+
+This turned out to be a flawed problem.
+I intended the answer to be (b), a clearly correct fragment.
+I also intended line (1) to have an error: missing mode.
+However, because <TT>IN</TT> is the default, there is nothing
+syntactically wrong with this statement, so (a) is also a correct
+answer.
+<P>
+The assignment statement of line (9) is wrong, because PSM uses the
+diction <TT>SET ... = ...</TT>.  Of course PL/SQL uses the <TT>:=</TT>,
+and both lines (4) and (9) are good PL/SQL.
+<P>
+Line (10) is incorrect, because in PSM, the while-statement has to end
+with <TT>END WHILE</TT>.
+
+<A NAME = "14"></A>
+<H3>Problem 14: (c)</H3>
+
+(a) violates the primary-key constraint for <I>S</I> and will be
+rejected.
+<P>
+(b) violates the foreign-key constraint.
+That is, (b) results in deletion of (5,3) from <I>T</I>, but that tuple
+is necessary because of (3,5) in <I>S</I>.
+<P>
+However, (c) causes no violation <I>to be detected</I>.
+That is, deletion of (3,6) from <I>T</I> does not affect the foreign-key
+situation, because there is no tuple in <I>S</I> with <I>d</I> = 3.
+It does cause (3,5) in <I>S</I> to violate the check-constraint, but
+this constraint is never checked on a deletion (let alone on any
+modification at all that takes place in another relation), so the
+constraint checker <I>will not complain</I>.
+
+<A NAME = "15"></A>
+<H3>Problem 15: (b)</H3>
+
+Let's call the three tuples of <I>T</I> by u, v, and w, in that order, and
+call the tuples of <I>S</I> by x, y, and z, in order.
+Let <I>aqqb</I> mean that the deletion of tuple <I>a</I> must precede
+the deletion of tuple <I>b</I>.
+Then we have the following precedences:
+<P>
+<OL>
+<LI>
+<I>x&lt;u</I> and <I>y&lt;u</I> because of the foreign-key constraint and
+value 1.
+<P>
+<LI>
+<I>t&lt;w</I> because of the foreign-key constraint and value 5.
+<P>
+<LI>
+<I>t&lt;v</I> because of the check-constraint (6 in v is the only
+<I>b</I>-value bigger than 5 in t).
+Note that the check-constraint is not checked during deletions, but the
+question clearly asks that there be no violation, whether or not the
+violation is caught.
+<P>
+<LI>x and y must each precede at least one of v and w (because of the
+check constraint).
+</OL>
+<P>
+If we look at only the first three conditions, then we can think of
+three places in the order chosen for x, y, and u, while the other three
+places go for t, w, and v.
+There are {6 choose 3} = 20 ways to divide the six places.
+Among those devoted to x, y, and u, the latter has to be last, but x and
+y can be ordered 2 ways.
+Similarly, among the positions for t, w, and v, tuple t must be first,
+and the other two can appear in 2 different ways.
+That makes a total of 20 * 2 * 2 = 80 orders that satisfy conditions
+(1)-(3).
+<P>
+Now, what about condition (4)?
+We claim the only way that condition can be violated when the other
+conditions are satisfied is if the two last positions are assigned to x,
+y, and u.
+For then, even though u will be last, one of x and y has to be in 5th
+position and therefore follow both v and w.
+However, as long as t, w, and v get either the 5th or 6th position, one
+of v and w will occupy one of the last two positions.
+Since u has to follow x and y, it is not possible that either x or y is
+as late as position 5, and therefore, one of v and w will follow each of
+them.
+We conclude that among the 20 ways to divide the six positions between
+xyu and tvw, only the 4 in which xyu gets positions 5, 6, and one other,
+will result in violating condition (4).
+The number of these orders is 4 * 2 * 2; the factors of 2 are because we
+can still choose a relative order for x and y within the three positions
+for xyu, and we can choose a relative order for v and w within tvw.
+<P>
+The final answer is thus 80 - 16 = 64.
+
+</BODY>
+</HTML>

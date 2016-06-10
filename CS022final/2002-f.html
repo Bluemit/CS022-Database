@@ -1,0 +1,484 @@
+<HTML>
+<HEAD><meta http-equiv=Content-Type content='text/html; charset=UTF-8'>
+
+<TITLE>CS145 Final Exam Solutions</TITLE>
+</HEAD>
+<BODY LANG="EN" BGCOLOR="DDDDCC">
+<H1 ALIGN = CENTER>CS145 Final Exam Solutions</H1>
+
+<H3>Index</H3>
+
+<CENTER><TABLE BORDER=2>
+<TR>
+<TD><A HREF = "#1">1</TD>
+<TD><A HREF = "#2">2</TD>
+<TD><A HREF = "#3">3</TD>
+<TD><A HREF = "#4">4</TD>
+<TD><A HREF = "#5">5</TD>
+<TD><A HREF = "#6">6</TD>
+<TD><A HREF = "#7">7</TD>
+<TD><A HREF = "#8">8</TD>
+<TD><A HREF = "#9">9</TD>
+<TD><A HREF = "#10">10</TD>
+</TR>
+<TR>
+<TD><A HREF = "#11">11</TD>
+<TD><A HREF = "#12">12</TD>
+<TD><A HREF = "#13">13</TD>
+<TD><A HREF = "#14">14</TD>
+<TD><A HREF = "#15">15</TD>
+<TD><A HREF = "#16">16</TD>
+<TD><A HREF = "#17">17</TD>
+<TD><A HREF = "#18">18</TD>
+<TD><A HREF = "#19">19</TD>
+<TD><A HREF = "#20">20</TD>
+</TR>
+<TR>
+<TD><A HREF = "#21">21</TD>
+<TD><A HREF = "#22">22</TD>
+<TD><A HREF = "#23">23</TD>
+<TD><A HREF = "#24">24</TD>
+<TD><A HREF = "#25">25</TD>
+<TD><A HREF = "#26">26</TD>
+<TD><A HREF = "#27">27</TD>
+<TD><A HREF = "#28">28</TD>
+<TD><A HREF = "#29">29</TD>
+<TD><A HREF = "#30">30</TD>
+</TR>
+<TR>
+<TD><A HREF = "#31">31</TD>
+<TD><A HREF = "#32">32</TD>
+<TD><A HREF = "#33">33</TD>
+<TD><A HREF = "#34">34</TD>
+<TD><A HREF = "#35">35</TD>
+</TR>
+</TABLE></CENTER>
+<P>
+
+
+<A NAME = "1"></A>
+<H3>Problem 1: (d)</H3>
+
+The fact that <I>R</I> is many-one and onto (i.e., each <I>A</I> is
+associated with exactly one <I>B</I> does not constrain <I>B</I>, except
+that it must have at least one entity.
+All the <I>A</I>'s could map to 1 <I>B</I> or 100 different <I>B</I>'s,
+or anything in between, and there could be any number of <I>B</I>'s that
+are not associated with any <I>A</I>.
+
+<A NAME = "2"></A>
+<H3>Problem 2: (b)</H3>
+
+The schema for <I>R</I> is (a,b,c), including the full key for
+<I>B</I>.
+
+<A NAME = "3"></A>
+<H3>Problem 3: (a)</H3>
+
+Many many people got this wrong.
+The problem is that people confuse the idea of where the key comes from
+in a weak entity set with what are the entities themselves.
+For example, if <I>B</I> were ``crews'' as in the text, and <I>A</I> was
+movies, while <I>R</I> indicated which crew worked on which movie, a
+movie would be related to a crew, i.e., a group of people.
+The fact that we couldn't uniquely refer to that crew without knowing
+the studio (entity set <I>C</I>) they worked for is irrelevant; <I>R</I>
+still connects movies to crews and not to studios.
+
+<A NAME = "4"></A>
+<H3>Problem 4: (c)</H3>
+
+The tuples are (1,2,5), (1,2,6), (3,4,<TT>NULL</TT>), and
+(<TT>NULL</TT>,7,8).
+
+<A NAME = "5"></A>
+<H3>Problem 5: (d)</H3>
+
+The fourth step (the revoke) effectively cancels the second and third steps.
+However, the first step gave <I>B</I> exactly the privileges described
+in choice (d), so that correctly describes the situation after step 4.
+
+<A NAME = "6"></A>
+<H3>Problem 6: (d)</H3>
+
+You get 2 tuples if <I>T1</I> is either completely before or completely
+after <I>T2</I>.
+The interleaving 2a, 1a, 1b, 2b causes 1b to return only one tuple.
+The interleaving 1a, 2a, 2b, 1b causes 1b to return 3 tuples:
+(3,4) because it is always there, (5,6) because it was inserted already,
+and (1,2), because even though it is no longer there, 1a saw it so 1b
+must see it.
+Note that <I>T1</I> has no effect on what <I>T2</I> sees, so the fact
+that <I>T2</I> is serializable doesn't restrict the order of steps in
+any way.
+<P>
+Added later: A number of people argued with me that it is impossible for
+T1 to see one tuple, because the deletion of (1,2) is not committed
+until after (5,6) is inserted.
+I sort of sympathize, but
+the problem is that the standard talks about tuples, as if they were the
+elementary units of information.  Thus, when step 1a asks for committed
+tuples, it does not <EM>have</EM> to see (1,2).
+There is no notion of a ``committed absence of a tuple.''
+<P>
+In practice, DBMS's use disk blocks as the elementary unit of
+information, e.g., for locking.
+Here, the reasoning that ``the absence of (1,2) is uncommitted'' makes
+perfectly good sense.
+That is, after step 2a, the block containing tuple (1,2) has been
+updated --- rather than deleted --- and its new value is uncommitted.
+Therefore, at that time T1
+could not see that block and <EM>must</EM> see tuple (1,2), probably on
+another version of the same disk block (unless T1 gets deferred --- a
+likely possibility).  As a result, answer (b) was also accepted for
+credit.
+
+<A NAME = "7"></A>
+<H3>Problem 7: (d)</H3>
+
+Actually, the instructor and most of the class had answer (b), that the
+update (I) succeeds in getting tuple (2) out of <I>R</I>, but the
+deletion doesn't.
+<P>
+The deletion (II) will surely be rejected, since it must cause at
+least one violation of the foreign-key constraint.
+Thus, it will make no change to either <I>R</I> or <I>S</I>, assuring
+that (2) remains in <I>R</I>.
+<P>
+However, the following reasoning was shown to me later by one of the
+students.
+Since <I>S.b</I> is referenced by a foreign key, it must be the primary
+key of <I>S</I>.
+Therefore, whenever <I>S</I> has more than one tuple, the update will
+violate this unseen primary-key declaration and will be rejected.
+Thus, in these cases, it will fail to rid <I>R</I> of (2).
+
+<A NAME = "8"></A>
+<H3>Problem 8: (c)</H3>
+
+What can I say?
+The subquery produces those departments with an average salary of at
+least $50K, and the assertion checks that the Toy Dept. is one of these
+departments.
+
+<A NAME = "9"></A>
+<H3>Problem 9: (a)</H3>
+
+View <I>V(d,c)</I> consists of the tuples (2,3), (12,2), and (12,1)
+currently, although the view isn't materialized.
+Therefore, <I>W(d,e)</I> has the tuples (2,3) and (12,3).
+The query itself groups both tuples, yielding only (7,3).
+
+
+<A NAME = "10"></A>
+<H3>Problem 10: (c)</H3>
+
+There is a ``standard'' trick for getting MAX or MIN into (core)
+relational algebra or Datalog, where you take the product of a relation
+with itself, and then do a selection that requires one copy of an
+attribute like <TT>salary</TT> to be strictly less than the second copy.
+A projection onto the first copy gives us those that are not maximum,
+and a set-difference lets us find those that <EM>are</EM> maximum.
+
+<A NAME = "11"></A>
+<H3>Problem 11: (d)</H3>
+
+This was a very hard problem for many people, especially those who
+skipped the Tuesday review session and didn't see me do a similar
+problem involving inference of MVD's.
+The key is to verify that A-&gt;B <EM>does</EM> follow from A-&gt;-&gt;B and
+D-&gt;B.
+To prove A-&gt;B, start by assuming there are two tuples in <I>R</I> that
+agree in <I>A</I>.
+We may refer to these tuples as (a,b1,c1,d1) and (a,b2,c2,d2), since we
+know nothing about components other than <I>A</I>.
+<P>
+Because A-&gt;-&gt;B is given, we know that (a,b2,c1,d1) is also in <I>R</I>.
+Now, we can apply D-&gt;B to (a,b1,c1,d1) and (a,b2,c1,d1) to infer that
+b1=b2.  That says that if any two tuples agree in <I>A</I>, they must
+also agree in <I>B</I>; i.e., A-&gt;B.
+<P>
+Now, C-&gt;A and A-&gt;B tell us C-&gt;B.
+Also, C-&gt;A and C-&gt;B tell us C-&gt;-&gt;AB, and the latter MVD tells us C-&gt;-&gt;D.
+Thus, all of (a), (b), and (c) are true, and the answer must be (d).
+
+<A NAME = "12"></A>
+<H3>Problem 12: (b)</H3>
+
+The only thing the constraints will allow us to do is insert (4) into
+<I>R</I> or (0) into <I>S</I>.
+Choose the former for the first step.
+Then, we can add (3) to <I>S</I>, then (6) to <I>R</I>, (5) to <I>S</I>,
+and (10) to <I>R</I>, taking a total of 5 steps.
+Technically, we need to create a table, using a ``dynamic programming''
+algorithm, in which we record for each tuple in <I>R</I> or <I>S</I>,
+the least number of steps needed to put it there, but this exploration
+doesn't go too far before you discover how to add (10) to <I>R</I>.
+
+<A NAME = "13"></A>
+<H3>Problem 13: (a)</H3>
+
+Choice (a) replaces the first (and only, in this case) question-mark by
+the value 5.
+You need to do this step first, in order to have the update make sense
+when you execute it.
+Choice (b) makes no sense because there isn't a second question-mark,
+(c) is nonsense, and (d) is inappropriate because you aren't trying to
+execute a <EM>query</EM>, but rather an update.
+
+<A NAME = "14"></A>
+<H3>Problem 14: (a)</H3>
+
+You need to do all of (b), (c), and (d), but observer methods only read
+values and do not create or insert them.
+
+<A NAME = "15"></A>
+<H3>Problem 15: (d)</H3>
+
+Dots are appropriate here; -&gt; is used only to follow a <TT>REF</TT>.
+
+<A NAME = "16"></A>
+<H3>Problem 16: (c)</H3>
+
+If neither <I>R.a</I> nor <I>R.b</I> are <TT>NULL</TT>, then the
+expression is a tautology of 2-valued logic and must be true in either
+2-valued or 3-valued logic.
+However, if either or both values are <TT>NULL</TT>, then the 3-valued
+truth value is at least unknown, and therefore cannot be false.
+There are, however, values that make this expression unknown, e.g.,
+<I>R.a</I> = <TT>NULL</TT> and <I>R.b</I> = -10.
+
+<A NAME = "17"></A>
+<H3>Problem 17: (b)</H3>
+
+The update replaces (1,2) by (1,3), and then the trigger applies and
+insert (1,4).
+Since this insert doesn't wake up the update-trigger, that's all that
+happens.
+
+<A NAME = "18"></A>
+<H3>Problem 18: (b)</H3>
+
+<I>A</I> has to be in any key because it is not on the right of any FD.
+If we add <I>E</I>, the second FD immediately gives us all attributes,
+so <I>AE</I> is a key.
+To use the first FD, we must add <I>BC</I>, and then the first FD
+immediately gives us all attributes, so <I>ABC</I> is another key.
+However, there are no other keys, since any other key would have to
+enable us to use at least one of the FD's, and we already have
+considered the minimum sets needed to get one of their left sides.
+<P>
+Shame on people who are still confusing ``key'' with ``superkey.''
+
+<A NAME = "19"></A>
+<H3>Problem 19: (a)</H3>
+
+E-&gt;D is a 3NF violation.
+That is, <I>E</I> is not a superkey, and <I>D</I> is not prime (in some
+key).
+
+<A NAME = "20"></A>
+<H3>Problem 20: (d)</H3>
+
+The only way a set could not be closed is if it includes the left side
+of one of the FD's but not the right.
+The sets that include <I>AB</I> but not <I>C</I> are <I>AB</I> and
+<I>ABD</I>.
+The sets that include <I>BC</I> but not <I>D</I> are <I>BC</I> and
+<I>ABC</I>.
+That's it; all 12 of the other subsets of <I>ABCD</I> must be closed.
+
+<A NAME = "21"></A>
+<H3>Problem 21: (c)</H3>
+
+In this case, with <TT>Answer(x,y)</TT> as the head in each case,
+a rule is safe only if both <I>x</I> and <I>y</I>
+appear in the body in nonnegated, relational subgoals.
+Only (c) qualifies.
+
+<A NAME = "22"></A>
+<H3>Problem 22: (d)</H3>
+
+In (d), the selection equates the attributes of <I>P</I>, giving us
+exactly those tuples that match the subgoal <TT>P(x,x)</I>.
+The projection and renaming gives us those values of <I>x</I>, but
+renamed attribute <I>C</I>.
+Thus, the natural join gives us those tuples in <I>Q</I> whose first
+compenents appear ``doubled'' (i.e., a single value, twice) in <I>P</I>.
+<P>
+Choice (a) is incorrect; it never forces the tuple from <I>P</I> to be
+``doubled.''
+Choice (b) equates the first component of <I>P</I> to the second
+component of <I>Q</I>.
+Choice (c) fails to equate the components of <I>P</I> to the first
+component of <I>Q</I>.
+
+<A NAME = "23"></A>
+<H3>Problem 23: (c)</H3>
+
+The join equates the second component of <I>P</I> to the first component
+of <I>Q</I>.
+If we think of <I>P</I> as <TT>P(x,y,z)</TT>, as in each of the answer
+choices, then <I>Q</I> should be <TT>Q(y,w)</TT> to reflect the join.
+The selection then says that <I>x&lt;y</I>, and the projection is onto
+<I>x</I> and <I>w</I>.
+Choice (c) fits all these requirements.
+
+<A NAME = "24"></A>
+<H3>Problem 24: (b)</H3>
+
+Let us represent a model by <I>(R,N)</I>, where <I>R</I> is the set for
+which <TT>Reach</TT> is true and <I>N</I> is the set for which
+<TT>NoReach</TT> is true.
+<TT>Reach</TT> is in stratum 0, and <TT>NoReach</TT> is in stratum 1.
+We compute the former using the first two rules: <I>R = {a,c}</I>.
+Then, using this value of <I>R</I> in the third rule, we have <I>N =
+{d}</I>.
+
+<A NAME = "25"></A>
+<H3>Problem 25: (b)</H3>
+
+Any other model has to have <I>a</I> and <I>c</I> in <I>R</I>, because
+the EDB and the first two rules force these IDB facts to be true.
+Thus, we need to consider the following four cases:
+<I>R = {a,c}, {a,b,c}, {a,c,d}, {a,b,c,d}</I>.
+<P>
+In the first two cases, the third rule forces <I>d</I> to be in
+<I>N</I>.
+Other nodes could also be in <I>N</I>, but all these models are not
+minimal; they contain <I>({a,c}, {d})</I>, which is the stratified
+model.
+<P>
+The third case gives us the minimal model <I>({a,c,d}, {})</I>.
+In the fourth case, we get <I>({a,b,c,d}, {})</I>, and models with some
+nodes in <I>N</I>, but none of these are minimal; they all contain
+<I>({a,c,d}, {})</I>.
+
+<A NAME = "26"></A>
+<H3>Problem 26: (c)</H3>
+
+Strange but true: the <TT>RETURN</TT> statement in PSM sets the return
+value but doesn't actually return.
+
+<A NAME = "27"></A>
+<H3>Problem 27: (a)</H3>
+
+The rule for what attributes can appear unaggregated in a
+<TT>HAVING</TT> clause (outside any subqueries) is the same as for a
+<TT>SELECT</TT> clause: only those attributes that appear in the
+<TT>GROUP BY</TT> list.
+Attribute <I>d</I> is not one of those.
+
+<A NAME = "28"></A>
+<H3>Problem 28: (b)</H3>
+
+As sets, both produce the intersection of <I>R</I> and <I>S</I>.
+However, SQL is a bag language.
+Suppose a tuple <I>t</I> appears <I>m</I> times in <I>R</I> and <I>n</I>
+times in <I>S</I>.
+Then <I>T</I> appears <I>min(m,n)</I> times in the answer to Q1.
+However, for the join, we pair all tuples of <I>R</I> with all tuples of
+<I>S</I> that agree in the common attributes (i.e., all attributes in
+this case), and we produce of copy for each successful pairing.
+Thus, Q2 produces <I>mn</I> copies of <I>t</I>.
+It is easy to verify that as long as <I>m</I> and <I>n</I> are
+nonnegative integers, <I>min(m,n) &lt;= mn</I>.
+
+<A NAME = "29"></A>
+<H3>Problem 29: (a)</H3>
+
+Each produces exactly the set of tuples <I>(a,c,d)</I>, where <I>c</I>
+is the maximum <I>b</I> paired with <I>a</I> in <I>R</I>, and <I>d</I>
+is the minimum such <I>b</I>.
+
+<A NAME = "30"></A>
+<H3>Problem 30: (c)</H3>
+
+If we think of <I>Arc</I> as arcs in a directed graph, then Q1 produces
+all <I>(x,y)</I> such that there is a path from node <I>x</I> to node
+<I>y</I> of length 1 or more.
+Q2 produces all and only the odd-length paths, as can be proved by an
+easy induction on the number of times the recursive rule is applied.
+Thus, surely Q2 is contained in Q1.
+<P>
+To check that these queries are not equal, consider a graph with only
+the arcs 1-&gt;2 and 2-&gt;3.
+Q1 produces (1,3), while Q2 doesn't.
+
+<A NAME = "31"></A>
+<H3>Problem 31: (d)</H3>
+
+Q1 produces the names of the A's that are connected only to B's that are
+connected to the C-object ``Joe.''
+Q2 looks at all the B's that are connected to C-object ``Joe'' and
+produces the names of their associated A-object.
+<P>
+Q2 will produce an A-object that is connected to some B's that are
+connected to ``Joe'' and to at least one B that is not connected to
+``Joe.''
+However, Q1 will not produce such an A.
+Thus, Q2 is not contained in Q1.
+<P>
+On the other hand, Q1 will produce an A that is connected to no B's at
+all, because the <TT>FOR ALL</TT> is always true when it is applied to
+an empty collection.
+However, Q2 will not produce such an A.
+Thus, neither query is contained in the other.
+
+<A NAME = "32"></A>
+<H3>Problem 32: (b)</H3>
+
+Q1 produces the names of those B's that are related to some C and also
+related to the A named ``Joe.''
+Note that since no B is related to more than one C, no B-object has its
+name produced more than once, but since a B might not be related to any
+C at all (see p. 141 of the text, or several examples in the notes), a B
+might not affect the output, even though it is related to the A named
+``Joe.''
+<P>
+On the other hand, Q2 produces all the B's that are related to the A
+named ``Joe,'' regardless of whether those B's are related to any C.
+Thus, Q2 is properly contained in Q1.
+
+<A NAME = "33"></A>
+<H3>Problem 33: (c)</H3>
+
+Q1 produces the <I>a</I>-components of those tuples that are in <I>R</I>
+but not <I>S</I>.
+Q2 produces those <I>a</I>'s that are the first component of some tuple
+in <I>R</I>, but not of any tuple in <I>S</I>.
+Surely, if <I>a</I> is a first component of a tuple <I>(a,b)</I> of <I>R</I>
+but not the first component of any tuple of <I>S</I> at all, then
+<I>(a,b)</I> is not in <I>S</I>, and therefore <I>a</I> is in the result
+of Q1.
+It follows that Q2 is contained in Q1.
+<P>
+To check that the queries are not equal, let <I>R = {(1,2)}</I> and <I>S
+= {(1,3)}</I>.
+Then Q1 produces (1), but Q2 does not.
+
+<A NAME = "34"></A>
+<H3>Problem 34: (a)</H3>
+
+Both queries produce those tuples of <I>R</I> whose <I>b</I>-components
+are equal to the <I>d</I>-component of some tuple of <I>S</I>.
+
+<A NAME = "35"></A>
+<H3>Problem 35: (b)</H3>
+
+Q1 produces those <I>a</I>-components from <I>R</I> that are bigger than
+all <I>b</I>-components, while Q2 produces those <I>a</I>-components
+from <I>R</I> that are different from at least <I>b</I>-component.
+Our first instinct is that therefore Q1 is contained in Q2, since if a
+value is bigger than all elements of a set, then it is ``surely''
+different from at least one of those elements.
+<P>
+However, if we remember a similar question from last year's final, we
+think ``what if the set is empty.''
+Then a value can be bigger than all, but not different from any.
+But in this case, when <I>R</I> is empty, both queries produce nothing.
+Thus, here our first thought turns out to be correct, and Q1 really is
+contained in Q2.
+
+</BODY>
+</HTML>
